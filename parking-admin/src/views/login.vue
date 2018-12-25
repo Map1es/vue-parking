@@ -2,7 +2,9 @@
 <template>
   <div class="login">
     <div class="login-container">
-      <Divider><span class="login-label">管理员登陆</span></Divider>
+      <Divider>
+        <span class="login-label">管理员登陆</span>
+      </Divider>
       <Form ref="formInline" :model="formInline" :rules="ruleInline">
         <FormItem prop="user">
           <Input type="text" v-model="formInline.user" placeholder="请输入用户名">
@@ -55,16 +57,17 @@ export default {
     };
   },
   methods: {
-    handleSubmit(name) {
-      this.$refs[name].validate(valid => {
+    handleSubmit(user) {
+      this.$refs[user].validate(valid => {
         if (valid) {
           this.$Message.success("登陆成功!");
+          this.$router.push({ name: 'home', params: { userId: user} });
         } else {
           this.$Message.error("登陆失败!");
         }
       });
     }
-  },
+  }
 };
 </script>
 
@@ -76,9 +79,9 @@ export default {
   background-size: cover;
   display: flex;
   align-items: center;
-  justify-content: center;  
+  justify-content: center;
 }
-.login-container{
+.login-container {
   width: 400px;
   height: 300px;
   padding: 20px 80px 20px;
@@ -86,7 +89,7 @@ export default {
   border-radius: 5px;
   background: white;
 }
-.login-label{
+.login-label {
   font-weight: 600;
   font-size: 20px;
   color: #17233d;
