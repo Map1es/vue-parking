@@ -8,32 +8,26 @@
             <div class="logo">后台管理系统</div>
             <Submenu name="1">
               <template slot="title">
-                <Icon type="ios-paper"/>内容管理
+                <Icon type="md-car" />车辆管理
               </template>
-              <MenuItem name="1-1">文章管理</MenuItem>
-              <MenuItem name="1-2">评论管理</MenuItem>
-              <MenuItem name="1-3">举报管理</MenuItem>
+              <MenuItem name="1-1">车牌查询</MenuItem>
+              <MenuItem name="1-2">车位查询</MenuItem>
+              <MenuItem name="1-3">视频回放</MenuItem>
             </Submenu>
             <Submenu name="2">
               <template slot="title">
-                <Icon type="ios-people"/>用户管理
+                <Icon type="logo-octocat" />用户管理
               </template>
-              <MenuItem name="2-1">新增用户</MenuItem>
-              <MenuItem name="2-2">活跃用户</MenuItem>
+              <MenuItem name="2-1">查询用户信息</MenuItem>
+              <MenuItem name="2-2">修改用户信息</MenuItem>
             </Submenu>
             <Submenu name="3">
               <template slot="title">
-                <Icon type="ios-stats"/>统计分析
+                <Icon type="ios-folder" />系统管理
               </template>
-              <MenuGroup title="使用">
-                <MenuItem name="3-1">新增和启动</MenuItem>
-                <MenuItem name="3-2">活跃分析</MenuItem>
-                <MenuItem name="3-3">时段分析</MenuItem>
-              </MenuGroup>
-              <MenuGroup title="留存">
-                <MenuItem name="3-4">用户留存</MenuItem>
-                <MenuItem name="3-5">流失用户</MenuItem>
-              </MenuGroup>
+              <MenuItem name="3-1">收费管理</MenuItem>
+              <MenuItem name="3-2">活跃分析</MenuItem>
+              <MenuItem name="3-3">修改权限</MenuItem>
             </Submenu>
           </Menu>
         </div>
@@ -41,12 +35,25 @@
 
       <Layout>
         <Header>
-          <div class="home-user">
-            <div class="home-user-img"></div>
-            <i class="tri-down"></i>
-          </div>
+          <a>
+            <Icon type="ios-menu" size="25" style="margin-top:-15px;margin-left:-40px"/>
+          </a>
+          <Dropdown style="margin-right:-20px">
+            <a href="javascript:void(0)" class="clearfix">
+              <Avatar icon="ios-person" size="small"/>
+              <Icon type="md-arrow-dropdown"/>
+            </a>
+            <DropdownMenu slot="list">
+              <DropdownItem>个人中心</DropdownItem>
+              <DropdownItem>退出登陆</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
         </Header>
-        <Content>Content</Content>
+
+        <Content>
+          <router-view :key></router-view>
+        </Content>
+
         <Footer>Footer</Footer>
       </Layout>
     </Layout>
@@ -57,7 +64,7 @@
 export default {
   data() {
     return {
-      theme: "dark"
+      theme: "light"
     };
   }
 };
@@ -101,30 +108,18 @@ export default {
 }
 
 // 导航条
+.nav-hide {
+  float: left;
+  margin-top: -8px;
+}
 .ivu-layout-header {
   background: white;
   height: 50px;
 }
-.home-user {
+.ivu-dropdown {
   float: right;
+  position: relative;
   height: 50px;
-  width: 40px;
-  position: relative;
-}
-.home-user-img {
-  width: 25px;
-  height: 25px;
-  background: #17233d;
-  border-radius: 15px;
-  position: relative;
-  top: 13px;
-}
-.tri-down {
-  width: 0;
-  height: 0;
-  border-left: 4px solid transparent;
-  border-right: 4px solid transparent;
-  border-top: 4px solid black;
-  float: right;
+  margin-top: -8px;
 }
 </style>
