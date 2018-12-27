@@ -1,43 +1,37 @@
 <!-- home.vue -->
 <template>
   <div class="home clearfix">
-    <Layout>
-      <Sider hide-trigger>
-        <div class="home-layout clearfix">
-          <Menu :theme="theme" :open-names="['1']" accordion>
-            <div class="logo">后台管理系统</div>
-            <Submenu name="1">
-              <template slot="title">
-                <Icon type="md-car" />车辆管理
-              </template>
-              <MenuItem name="1-1">车牌查询</MenuItem>
-              <MenuItem name="1-2">车位查询</MenuItem>
-              <MenuItem name="1-3">视频回放</MenuItem>
-            </Submenu>
-            <Submenu name="2">
-              <template slot="title">
-                <Icon type="logo-octocat" />用户管理
-              </template>
-              <MenuItem name="2-1">查询用户信息</MenuItem>
-              <MenuItem name="2-2">修改用户信息</MenuItem>
-            </Submenu>
-            <Submenu name="3">
-              <template slot="title">
-                <Icon type="ios-folder" />系统管理
-              </template>
-              <MenuItem name="3-1">收费管理</MenuItem>
-              <MenuItem name="3-2">活跃分析</MenuItem>
-              <MenuItem name="3-3">修改权限</MenuItem>
-            </Submenu>
-          </Menu>
-        </div>
-      </Sider>
-
-      <Layout>
-        <Header>
-          <a>
-            <Icon type="ios-menu" size="25" style="margin-top:-15px;margin-left:-40px"/>
-          </a>
+    <Sider :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
+      <Menu active-name="1-1" theme="dark" width="auto" :open-names="['1']" accordion>
+        <div class="logo">后台管理系统</div>
+        <Submenu name="1">
+          <template slot="title">
+            <Icon type="md-car"/>车辆管理
+          </template>
+          <MenuItem name="1-1">车牌查询</MenuItem>
+          <MenuItem name="1-2">车位查询</MenuItem>
+          <MenuItem name="1-3">视频回放</MenuItem>
+        </Submenu>
+        <Submenu name="2">
+          <template slot="title">
+            <Icon type="logo-octocat"/>用户管理
+          </template>
+          <MenuItem name="2-1">查询用户信息</MenuItem>
+          <MenuItem name="2-2">修改用户信息</MenuItem>
+        </Submenu>
+        <Submenu name="3">
+          <template slot="title">
+            <Icon type="ios-folder"/>系统管理
+          </template>
+          <MenuItem name="3-1">收费管理</MenuItem>
+          <MenuItem name="3-2">活跃分析</MenuItem>
+          <MenuItem name="3-3">修改权限</MenuItem>
+        </Submenu>
+      </Menu>
+    </Sider>
+    <Layout :style="{marginLeft: '200px'}">
+      <Affix>
+        <Header :style="{background: '#fff', boxShadow: '0 2px 3px 2px rgba(0,0,0,.1)'}">
           <Dropdown style="margin-right:-20px">
             <a href="javascript:void(0)" class="clearfix">
               <Avatar icon="ios-person" size="small"/>
@@ -49,13 +43,18 @@
             </DropdownMenu>
           </Dropdown>
         </Header>
-
-        <Content>
-          <router-view :key></router-view>
-        </Content>
-
-        <Footer>Footer</Footer>
-      </Layout>
+      </Affix>
+      <Content :style="{padding: '0 16px 16px'}">
+        <Card :style="{margin: '20px 0px'}">
+          <div style="height: 40px">
+            <span class="page-title">车牌查询</span>
+              <Divider></Divider>
+          </div>
+        </Card>
+        <Card>
+          <div style="height: 700px">Content</div>
+        </Card>
+      </Content>
     </Layout>
   </div>
 </template>
@@ -63,17 +62,18 @@
 <script>
 export default {
   data() {
-    return {
-      theme: "light"
-    };
+    return {};
   }
 };
 </script>
 
 <style lang='scss' scoped>
 .home {
-  height: 100%;
-  display: flex;
+  border: 1px solid #d7dde4;
+  background: #f5f7f9;
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
 }
 .logo {
   width: 100%;
@@ -85,33 +85,8 @@ export default {
   text-align: center;
   line-height: 50px;
 }
-.home-sider {
-  width: 200px;
-  min-width: 200px;
-  max-width: 200px;
-  flex: 0 0 200px;
-  overflow: hidden;
-}
-.home-main {
-  flex: auto;
-}
-.ivu-menu {
-  height: 100%;
-  margin-right: -18px;
-  overflow-y: scroll;
-  position: fixed;
-  left: 0;
-  width: 200px !important;
-}
-.ivu-menu::-webkit-scrollbar {
-  display: none;
-}
 
 // 导航条
-.nav-hide {
-  float: left;
-  margin-top: -8px;
-}
 .ivu-layout-header {
   background: white;
   height: 50px;
@@ -121,5 +96,16 @@ export default {
   position: relative;
   height: 50px;
   margin-top: -8px;
+}
+.layout-header-bar {
+  background: #fff;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+.ivu-divider-horizontal{
+  margin: 5px 0px;
+}
+.page-title {
+  font-size: 24px;
+  font-weight: 600;
 }
 </style>
