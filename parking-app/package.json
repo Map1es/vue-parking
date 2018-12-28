@@ -9,6 +9,9 @@
   },
   "dependencies": {
     "iview": "^3.0.1",
+    "lib-flexible": "^0.3.2",
+    "postcss-px-to-viewport": "0.0.3",
+    "px2rem-loader": "^0.1.9",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1"
   },
@@ -40,7 +43,11 @@
   },
   "postcss": {
     "plugins": {
-      "autoprefixer": {}
+      "autoprefixer": {},
+      "postcss-px-to-viewport": {
+        "viewportWidth": 750,
+        "minPixelValue": 1
+      }
     }
   },
   "browserslist": [
