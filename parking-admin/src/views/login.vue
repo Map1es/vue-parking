@@ -61,7 +61,7 @@ export default {
       this.$refs[user].validate(valid => {
         if (valid) {
           this.$Message.success("登陆成功!");
-          this.$router.push({ name: 'home', params: { userId: user} });
+          this.$router.push({ name: 'home', params: { userId: this.formInline.user} });
         } else {
           this.$Message.error("登陆失败!");
         }
