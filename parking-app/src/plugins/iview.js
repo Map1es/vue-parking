@@ -4,3 +4,4 @@ import iView from 'iview'
 Vue.use(iView)
 
 import '../iview-variables.less'
+import '../styles/normalize.css'
