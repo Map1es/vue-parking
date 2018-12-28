@@ -1,72 +1,84 @@
 <template>
   <div class="home">
-    <Layout>
-      <Header>Header</Header>
-      <Content>Content</Content>
+    <Header>
+      <Input size="large" placeholder="搜索停车场">
+        <Icon type="ios-search" size="20" slot="suffix"/>
+      </Input>
+      <Icon style="margin-top:10px;margin-left:15px;" type="md-qr-scanner" size="26"/>
+    </Header>
+
+    <Card shadow class="home-card">
+      <p>Content of card</p>
+      <p>Content of card</p>
+      <p>Content of card</p>
+    </Card>
+    
+    <Card shadow class="home-card">
       <Row type="flex">
-        <Col class="footer-item" span="8" order="1">
-          <a>
-            <Icon type="md-home" :size="26"/>
-            <span class="item-span">首页</span>
-          </a>
+        <Col span="6">
+          <router-link to='/' class="home-button">
+            <Icon type="md-qr-scanner" size="50"/><br/>
+            <span class="button-name">停车场查询</span>
+          </router-link>
         </Col>
-        <Col class="footer-item" span="8" order="2">
-          <a>
-            <Icon type="md-compass" :size="26"/>
-            <span class="item-span">发现</span>
-          </a>
+        <Col span="6">
+          <router-link to='/' class="home-button">
+            <Icon type="md-qr-scanner" size="50"/><br/>
+            <span class="button-name">停车场查询</span>
+          </router-link>
         </Col>
-        <Col class="footer-item" span="8" order="3">
-          <a>
-            <Icon type="md-person" :size="26"/>
-            <span class="item-span">个人</span>
-          </a>
+        <Col span="6">
+          <router-link to='/' class="home-button">
+            <Icon type="md-qr-scanner" size="50"/><br/>
+            <span class="button-name">停车场查询</span>
+          </router-link>
+        </Col>
+        <Col span="6">
+          <router-link to='/' class="home-button">
+            <Icon type="md-qr-scanner" size="50"/><br/>
+            <span class="button-name">停车场查询</span>
+          </router-link>
         </Col>
       </Row>
-    </Layout>
+    </Card>
+
   </div>
 </template>
 
 <script>
 export default {
-  name: "home"
+
 };
 </script>
 <style scoped>
 .home {
   height: 100%;
 }
-.ivu-layout-footer {
-  position: fixed;
-  zoom: 1;
-  bottom: 0;
-  width: 100%;
+.ivu-layout-header {
+  height: 90px;
+  background: white;
+  border-bottom: 1px solid #f1f1f1;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2);
 }
-.ivu-row-flex {
-  height: 100px;
-  position: fixed;
-  zoom: 1;
-  bottom: 0;
-  width: 100%;
-  background: #fff;
-  border-top: 1px solid #f1f1f1;
+.home-card {
+  margin: 20px;
+  padding: 16px;
 }
-.footer-item {
-  text-align: center;
-  font-size: 16px;
-  line-height: 20px;
-  border-right: 1px solid #f1f1f1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.ivu-input-wrapper {
+  margin-top: 16px;
+  width: 85%;
+  position: relative;
 }
-.footer-item a:hover{
-  text-decoration: none;
-}
-.item-span {
-  font-size: 14px;
-  line-height: 30px;
+.home-button{
   display: block;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+.button-name{
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 60px;
 }
 </style>
 
