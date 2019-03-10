@@ -14,7 +14,7 @@
         </span>
         <div class="user-info-message">
           <div class="user-info-name">user-name</div>
-          <div class="user-info-carId">粤D 123456</div>
+          <div class="user-info-carId">粤A 123456</div>
         </div>
         <div class="fr user-forward">
           <Icon type="ios-arrow-forward" size='35' />
