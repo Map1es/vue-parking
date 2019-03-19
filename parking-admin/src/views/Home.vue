@@ -73,7 +73,7 @@ export default {
 };
 </script>
 
-<style lang='scss' scoped>
+<style scoped>
 .home {
   border: 1px solid #d7dde4;
   background: #f5f7f9;
@@ -84,7 +84,7 @@ export default {
 .logo {
   width: 100%;
   height: 50px;
-  background: #17233d;
+  background: #001529;
   color: white;
   font-weight: 600;
   font-size: 24px;

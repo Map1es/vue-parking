@@ -61,7 +61,7 @@ export default {
       this.$refs[user].validate(valid => {
         if (valid) {
           this.$Message.success("登陆成功!");
-          this.$router.push({ name: 'home', params: { userId: this.formInline.user} });
+          this.$router.push({ name: 'home'});
         } else {
           this.$Message.error("登陆失败!");
         }
@@ -71,7 +71,7 @@ export default {
 };
 </script>
 
-<style lang='scss' scoped>
+<style scoped>
 .login {
   background-image: url(../assets/images/login-bg.png);
   background-repeat: no-repeat;
