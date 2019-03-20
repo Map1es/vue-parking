@@ -49,7 +49,6 @@
 <script>
 import echarts from "echarts";
 export default {
-  name: "",
   data() {
     return {
       charts: "",

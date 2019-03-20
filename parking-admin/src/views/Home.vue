@@ -3,26 +3,26 @@
     <Layout>
       <Layout>
         <Sider hide-trigger class="layout-sider">
-          <router-link to="/index" class="layout-logo"><div>AI planning</div></router-link>
-          <Menu active-name="1" theme="dark" width="auto">
-            <MenuItem name="1">
+          <div class="layout-logo">AI planning</div>
+          <Menu active-name="index" :v-model="active" theme="dark" width="auto" @on-select="routeTo">
+            <MenuItem name="index">
               <Icon type="md-home"/>首页
             </MenuItem>
             <MenuGroup title="用户管理">
-              <MenuItem name="2">
+              <MenuItem name="user-info">
                 <Icon type="md-person"/>用户信息
               </MenuItem>
-              <MenuItem name="3">
+              <MenuItem name="user-update">
                 <Icon type="md-apps"/>用户修改
               </MenuItem>
             </MenuGroup>
             <MenuGroup title="收费管理">
-              <MenuItem name="4">
+              <MenuItem name="cost" >
                 <Icon type="logo-yen"/>收费系统
               </MenuItem>
             </MenuGroup>
             <MenuGroup title="报修系统">
-              <MenuItem name="5">
+              <MenuItem name="fix" >
                 <Icon type="md-build"/>报修系统
               </MenuItem>
             </MenuGroup>
@@ -49,7 +49,18 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data(){
+    return {
+      active: "index"
+    }
+  },
+   methods: {
+        routeTo(e) {
+            this.$router.push(e);
+        }       
+    }
+};
 </script>
 
 <style scoped>
