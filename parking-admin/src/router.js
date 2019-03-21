@@ -5,6 +5,7 @@ import login from './views/login.vue'
 import cost from './views/cost.vue'
 import index from './views/index.vue'
 import fix from './views/fix.vue'
+import car from './views/car.vue'
 
 
 Vue.use(Router)
@@ -30,6 +31,10 @@ export default new Router({
           path: '/fix',
           component: fix
         },
+        {
+          path: '/car',
+          component: car
+        }
       ]
     }
   ]

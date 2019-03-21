@@ -9,7 +9,7 @@
           <Input></Input>
         </FormItem>
         <FormItem label="报修类型：">
-          <Select v-model="model1" style="width:200px">
+          <Select style="width:200px">
             <Option v-for="item in fixType" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
         </FormItem>
@@ -26,26 +26,19 @@
         </FormItem>
       </Form>
       <Button type="primary" class="fix-sumbit">提交</Button>
-      <Button>取消</Button>
     </div>
     <Divider>
       <span class="fix-divider">报修记录</span>
     </Divider>
-    <div class="fix-list">
-      <Card class="fix-card" v-for="item of 121">
-        <div class="fix-card-flex">
-          <div class="fix-content">
-            <div>报修名称：监控摄像头</div>
-            <div>报修人：ye</div>
-            <div>报修类型：报错</div>
-          </div>
-          <div class="fix-icon">
-            <Icon type="md-checkmark-circle" :class="finish" size="40"/>
-            <div>未处理</div>
-          </div>
-        </div>
-      </Card>
-    </div>
+    <Table height="500" small :columns="carTitle" :data="carData">
+      <template slot-scope="{ row }" slot="fixName">
+        <strong>{{ row.fixName }}</strong>
+      </template>
+      <template slot-scope="{ row, index }" slot="action">
+        <Button type="primary" style="margin-right:10px">完成</Button>
+        <Button type="error">删除</Button>
+      </template>
+    </Table>
   </div>
 </template>
 
@@ -67,7 +60,40 @@ export default {
           label: "消息"
         }
       ],
-      finish: 'finish'
+      finish: "finish",
+      carTitle: [
+        { title: "报修名称", key: "fixName" },
+        { title: "报修人", key: "fixUser" },
+        { title: "报修类型", key: "fixType" },
+        { title: "报修日期", key: "fixDate", sortable: true },
+        {
+          title: "是否完成",
+          key: "fixEable",
+          sortable: true
+        },
+        {
+          title: "操作",
+          slot: "action",
+          width: 180,
+          align: "center"
+        }
+      ],
+      carData: [
+        {
+          fixName: "xiaoming",
+          fixUser: "xiaoming",
+          fixType: "出错",
+          fixDate: "2019-2-21",
+          fixEable: "是"
+        },
+        {
+          fixName: "xiaoming",
+          fixUser: "xiaoming",
+          fixType: "出错",
+          fixDate: "2019-2-25",
+          fixEable: "否"
+        }
+      ]
     };
   }
 };
@@ -85,42 +111,42 @@ export default {
 .fix-divider {
   font-size: 14px;
 }
-.fix-list{
-    display: flex;
-    flex-wrap: wrap;
-    overflow-y: scroll;
-    height: 500px;
-    margin: 0 auto;
+.fix-list {
+  display: flex;
+  flex-wrap: wrap;
+  overflow-y: scroll;
+  height: 500px;
+  margin: 0 auto;
 }
-.fix-list::-webkit-scrollbar{
-    display: none;
+.fix-list::-webkit-scrollbar {
+  display: none;
 }
 .fix-card {
   width: 400px;
   cursor: pointer;
-  margin:10px 40px;
+  margin: 10px 40px;
 }
-.fix-card-flex{
-    display: flex;
+.fix-card-flex {
+  display: flex;
 }
-.fix-content{
-    width: 300px;
+.fix-content {
+  width: 300px;
 }
 .fix-content div {
   font-size: 18px;
 }
 .fix-icon {
-    width: 100px;
-    display: flex;
-    flex-direction: column;
-    align-items:  flex-end;
-    justify-content: center;
-    margin-right: 30px;
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  margin-right: 30px;
 }
-.unfinish{
-    color: rgb(179, 55, 38);
+.unfinish {
+  color: rgb(179, 55, 38);
 }
-.finish{
-    color: rgb(51, 206, 51);
+.finish {
+  color: rgb(51, 206, 51);
 }
 </style>

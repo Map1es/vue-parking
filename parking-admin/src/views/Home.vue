@@ -16,6 +16,11 @@
                 <Icon type="md-apps"/>用户修改
               </MenuItem>
             </MenuGroup>
+            <MenuGroup title="车位管理">
+              <MenuItem name="car" >
+                <Icon type="md-car" />停车记录
+              </MenuItem>
+            </MenuGroup>
             <MenuGroup title="收费管理">
               <MenuItem name="cost" >
                 <Icon type="logo-yen"/>收费系统
