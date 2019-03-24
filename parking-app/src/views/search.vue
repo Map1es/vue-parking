@@ -1,7 +1,7 @@
 <!-- search.vue -->
 <template>
   <div class="search">
-    <div id="allmap"></div>
+    <div id="allmap">1231</div>
     <div class="map-list">
       <div class="map-item" v-for="item of 21">
         <div class="map-title">大信停车场</div>
@@ -38,13 +38,16 @@ export default {
   height: 100%;
 }
 #allmap {
-  margin-top: 50px;
-  height: 40%;
+  height: 500px;
   width: 100%;
-  border-bottom:1px  solid black;
+  border-bottom:1px solid black;
+  position:fixed;
+  top: 0;
+  z-index: 999;
+  background: #cfc8c8
 }
 .map-list{
-  margin-top: 3px;
+  margin-top: 500px;
   border-top: 1px solid #cfc8c8;
   margin-bottom: 100px;
 }

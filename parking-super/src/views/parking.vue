@@ -1,26 +1,30 @@
 <template>
   <div class="parking">
-     <Input search placeholder="搜索停车场" class="paking-search" />
+    <Input search placeholder="搜索停车场" class="paking-search"/>
     <div class="parking-content">
-      <Card class="parking-card">
-        <div class="parking-title">大信一期停车场</div>
-        <div class="parking-msg">
-          <div class="msg-content">
-            <span class="msg-number info">1231</span>
-            <h4 class="msg-title">总车位数</h4>
+      <router-link to="/infoParking">
+        <Card class="parking-card">
+          <div class="parking-title">大信一期停车场</div>
+          <div class="parking-msg">
+            <div class="msg-content">
+              <span class="msg-number info">1231</span>
+              <h4 class="msg-title">总车位数</h4>
+            </div>
+            <div class="msg-content">
+              <span class="msg-number success">831</span>
+              <h4 class="msg-title">剩余车位</h4>
+            </div>
+            <div class="msg-content">
+              <span class="msg-number error">431</span>
+              <h4 class="msg-title">已停车位</h4>
+            </div>
           </div>
-          <div class="msg-content">
-            <span class="msg-number success">831</span>
-            <h4 class="msg-title">剩余车位</h4>
-          </div>
-          <div class="msg-content">
-            <span class="msg-number error">431</span>
-            <h4 class="msg-title">已停车位</h4>
-          </div>
-        </div>
-      </Card>
+        </Card>
+      </router-link>
     </div>
-    <Button type="primary" to="/addParking" class="parking-add"><Icon type="md-add-circle" size="26"/> 新增停车场</Button>
+    <Button type="primary" to="/addParking" class="parking-add">
+      <Icon type="md-add-circle" size="26"/>新增停车场
+    </Button>
   </div>
 </template>
 
@@ -51,6 +55,7 @@ export default {};
   height: 200px;
   margin: 10px 20px;
   cursor: pointer;
+  color: #515a6e;
 }
 .parking-title {
   font-size: 24px;

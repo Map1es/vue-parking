@@ -43,7 +43,9 @@
 </template>
 
 <script>
+import fixDesc from '../components/fix-desc.vue';
 export default {
+   components: { fixDesc },
   data() {
     return {
       fixType: [
@@ -62,6 +64,17 @@ export default {
       ],
       finish: "finish",
       carTitle: [
+        {
+          type: "expand",
+          width: 50,
+          render: (h, params) => {
+            return h(fixDesc, {
+              props: {
+                row: params.row
+              }
+            });
+          }
+        },
         { title: "报修名称", key: "fixName" },
         { title: "报修人", key: "fixUser" },
         { title: "报修类型", key: "fixType" },
@@ -84,14 +97,16 @@ export default {
           fixUser: "xiaoming",
           fixType: "出错",
           fixDate: "2019-2-21",
-          fixEable: "是"
+          fixEable: "是",
+          content:"1231223123"
         },
         {
           fixName: "xiaoming",
           fixUser: "xiaoming",
           fixType: "出错",
           fixDate: "2019-2-25",
-          fixEable: "否"
+          fixEable: "否",
+          content:"jdfjdfj"
         }
       ]
     };

@@ -58,7 +58,7 @@ export default {
         { value: 310, name: "警告" },
         { value: 234, name: "信息" }
       ],
-      carFlow:[1022, 5244, 2020, 3334, 4390, 5330, 2220]
+      carFlow: [1022, 5244, 2020, 3334, 4390, 5330, 2220]
     };
   },
   methods: {
@@ -131,7 +131,7 @@ export default {
         tooltip: {
           trigger: "axis",
           axisPointer: {
-            type: "shadow" 
+            type: "shadow"
           }
         },
         grid: {
@@ -143,7 +143,15 @@ export default {
         xAxis: [
           {
             type: "category",
-            data: ["星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"],
+            data: [
+              "星期一",
+              "星期二",
+              "星期三",
+              "星期四",
+              "星期五",
+              "星期六",
+              "星期日"
+            ],
             axisTick: {
               alignWithLabel: true
             }
@@ -184,7 +192,9 @@ export default {
 }
 .index-content {
   display: flex;
-  margin: 30px auto;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
 }
 .msg-card {
   width: 400px;
@@ -193,7 +203,7 @@ export default {
   background: #fff;
   border-radius: 10px;
   overflow: hidden;
-  margin: 0 80px;
+  margin: 0 20px;
 }
 .card-content {
   display: flex;
@@ -231,7 +241,7 @@ export default {
   margin: 50px 80px;
   float: left;
 }
-.echarts-bar{
+.echarts-bar {
   height: 320px;
   float: left;
   margin: 50px;
