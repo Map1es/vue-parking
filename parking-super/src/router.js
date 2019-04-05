@@ -7,6 +7,7 @@ import fix from './views/fix.vue'
 import infoFix from './views/fix/infoFix.vue'
 import infoParking from './views/parking/infoParking.vue'
 import addParking from './views/parking/addParking.vue'
+import user from './views/user.vue'
 
 
 Vue.use(Router)
@@ -44,6 +45,10 @@ export default new Router({
         {
           path:'/addParking',
           component: addParking
+        },
+        {
+          path:'/user',
+          component: user
         },
       ]
     }

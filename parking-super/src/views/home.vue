@@ -13,6 +13,9 @@
             <MenuItem name="parking" to="parking">
               <Icon type="ios-keypad"></Icon>停车场
             </MenuItem>
+            <MenuItem name="user" to="user">
+              <Icon type="md-contacts"/>用户
+            </MenuItem>
             <MenuItem name="fix" to="fix">
               <Icon type="ios-analytics"></Icon>报修
             </MenuItem>

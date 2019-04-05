@@ -1,13 +1,16 @@
 <template>
-  <div class="cost">
-    <Form>
-      <FormItem label="小时收费金额：">
+  <div class="updateParking">
+    <Form label-position="right" :label-width="120">
+      <FormItem label="停车场名称：">
         <Input></Input>
       </FormItem>
-      <FormItem label="日收费金额：">
+      <FormItem label="停车场坐标：">
         <Input></Input>
       </FormItem>
-      <FormItem label="月收费金额：">
+      <FormItem label="总车位数：">
+        <Input></Input>
+      </FormItem>
+      <FormItem label="收费金额：">
         <Input></Input>
       </FormItem>
       <FormItem>

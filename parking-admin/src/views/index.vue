@@ -38,11 +38,11 @@
       <div class="msg-card">
         <div class="card-content">
           <div class="msg-icon">
-            <Icon type="md-close-circle" size="50"/>
+            <Icon type="md-build" size="50"/>
           </div>
           <div class="msg-content">
             <div class="msg-number">132</div>
-            <div class="msg-title">报错数量</div>
+            <div class="msg-title">报修数量</div>
           </div>
         </div>
       </div>
@@ -81,39 +81,75 @@ import echarts from "echarts";
 export default {
   data() {
     return {
+      url: this.$store.state.url,
       charts: "",
       opinion: ["已停车位", "剩余车位"],
       opinionData: [
-        { value: 335, name: "已停车位" },
-        { value: 310, name: "剩余车位" }
+        { value: 0, name: "已停车位" },
+        { value: 0, name: "剩余车位" }
       ],
-      carFlow: [1022, 5244, 2020, 3334, 4390, 5330, 2220]
+      carFlow: [1022, 5244, 2020, 3334, 4390, 5330, 2220],
+      parking: null
     };
+  },
+  created: function() {
+    let _this = this;
+    this.axios({
+      method: "get",
+      url: _this.url + "garage/info/137"
+    })
+      .then(function(res) {
+        _this.parking = res.data;
+        _this.opinionData[0].value = _this.parking.sumSapce - _this.parking.realSpace;
+        _this.opinionData[1].value = _this.parking.realSpace;
+        _this.drawPie("pie");
+        _this.drawBar("bar");
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
+    this.axios({
+      method: "get",
+      url: _this.url + "bill/count/garage/lastweek/137"
+    })
+      .then(function(res) {
+        _this.carFlow = res.data;
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
+    // this.axios({
+    //   method: "post",
+    //   url: _this.url + "garage/info",
+    //   data: {
+    //     garageName: "大信",
+    //     latitudeAndLongitude: "123123123",
+    //     details: "大信",
+    //     attribute: "地面免费",
+    //     sumSapce: 1
+    //   }
+    // })
+    //   .then(function(res) {
+    //     console.log(res);
+    //   })
+    //   .catch(function(err) {
+    //     console.log(err);
+    //   });
   },
   methods: {
     drawPie(id) {
       this.charts = echarts.init(document.getElementById(id));
       this.charts.setOption({
-        // title: {
-        //   text: "车位实时信息",
-        //   left: "center",
-        //   textStyle: {
-        //     align: "center",
-        //     fontSize: "24",
-        //     fontWeight: "bolder",
-        //     color: "#515a6e"
-        //   }
-        // },
         title: {
           text: "车位总数",
-          subtext: 7789,
+          subtext: this.parking.sumSapce,
           textStyle: {
             color: "#515a6e",
             fontSize: 25
           },
           subtextStyle: {
             fontSize: 20,
-            color: ["#ff9d19"],
+            color: ["#ff9d19"]
           },
           x: "center",
           y: "center"
@@ -136,7 +172,7 @@ export default {
             avoidLabelOverlap: false,
             label: {
               normal: {
-                show: true,
+                show: true
               },
               emphasis: {
                 show: false,
@@ -149,7 +185,7 @@ export default {
             labelLine: {
               normal: {
                 show: true
-              },
+              }
             },
             data: this.opinionData
           }
@@ -216,11 +252,7 @@ export default {
     }
   },
   //调用
-  mounted() {
-    this.$nextTick(function() {
-      this.drawPie("pie");
-      this.drawBar("bar");
-    });
+  mounted: function() {
   }
 };
 </script>
@@ -291,10 +323,10 @@ export default {
   align-items: center;
   flex-direction: column;
 }
-.pie-title{
-    text-align: center;
-    font-size: 22px;
-    font-weight: 600;
+.pie-title {
+  text-align: center;
+  font-size: 22px;
+  font-weight: 600;
 }
 .echarts-pie {
   width: 480px;

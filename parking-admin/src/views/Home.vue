@@ -8,27 +8,25 @@
             <MenuItem name="index">
               <Icon type="md-home"/>首页
             </MenuItem>
-            <MenuGroup title="用户管理">
-              <MenuItem name="user-info">
-                <Icon type="md-person"/>用户信息
+            <MenuGroup title="车场管理">
+              <MenuItem name="parking" >
+                <Icon type="md-car" />车场信息
               </MenuItem>
-              <MenuItem name="user-update">
-                <Icon type="md-apps"/>用户修改
+              <MenuItem name="updateParking" >
+                <Icon type="md-car" />信息修改
               </MenuItem>
             </MenuGroup>
-            <MenuGroup title="车位管理">
+            <MenuGroup title="停车管理">
               <MenuItem name="car" >
                 <Icon type="md-car" />停车记录
               </MenuItem>
             </MenuGroup>
-            <MenuGroup title="收费管理">
-              <MenuItem name="cost" >
-                <Icon type="logo-yen"/>收费系统
-              </MenuItem>
-            </MenuGroup>
             <MenuGroup title="报修系统">
+              <MenuItem name="addFix" >
+                <Icon type="md-build"/>上报功能
+              </MenuItem>
               <MenuItem name="fix" >
-                <Icon type="md-build"/>报修系统
+                <Icon type="md-build"/>报修信息
               </MenuItem>
             </MenuGroup>
           </Menu>

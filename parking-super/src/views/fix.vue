@@ -1,61 +1,149 @@
 <template>
   <div class="fix">
-    <div class="fix-content" >
-      <Card class="fix-card">
-        <div style="height:100%">
-        <h2>停车场名称
-          <span class="fix-type">上报类型：</span>
-        </h2>
-        <div class="fix-msg">
-          <span>上报人：</span>
-          <span>上报日期：</span>
-          <span>是否处理：</span>
-        </div>
-        <div class="fix-opera">
-          <Button>查看详情</Button>
-          <Button type="primary">处理</Button>
-        </div>
-        </div>
-      </Card>
-    </div>
+    <Input search placeholder="搜索停车场" class="paking-search"/>
+    <Divider>
+      <span class="fix-divider">报修记录</span>
+    </Divider>
+    <Table height="500" small :columns="carTitle" :data="carData">
+      <template slot-scope="{ row }" slot="fixName">
+        <strong>{{ row.fixName }}</strong>
+      </template>
+      <template slot-scope="{ row, index }" slot="action">
+        <Button type="primary" style="margin-right:10px">完成</Button>
+        <Button type="error">删除</Button>
+      </template>
+    </Table>
   </div>
 </template>
 
 <script>
-export default {};
+import fixDesc from '../components/fix-desc.vue';
+export default {
+   components: { fixDesc },
+  data() {
+    return {
+      fixType: [
+        {
+          value: "报错",
+          label: "报错"
+        },
+        {
+          value: "警告",
+          label: "警告"
+        },
+        {
+          value: "消息",
+          label: "消息"
+        }
+      ],
+      finish: "finish",
+      carTitle: [
+        {
+          type: "expand",
+          width: 50,
+          render: (h, params) => {
+            return h(fixDesc, {
+              props: {
+                row: params.row
+              }
+            });
+          }
+        },
+        { title: "报修名称", key: "fixName" },
+        { title: "报修人", key: "fixUser" },
+        { title: "报修类型", key: "fixType" },
+        { title: "报修日期", key: "fixDate", sortable: true },
+        {
+          title: "是否完成",
+          key: "fixEable",
+          sortable: true
+        },
+        {
+          title: "操作",
+          slot: "action",
+          width: 180,
+          align: "center"
+        }
+      ],
+      carData: [
+        {
+          fixName: "xiaoming",
+          fixUser: "xiaoming",
+          fixType: "出错",
+          fixDate: "2019-2-21",
+          fixEable: "是",
+          content:"1231223123"
+        },
+        {
+          fixName: "xiaoming",
+          fixUser: "xiaoming",
+          fixType: "出错",
+          fixDate: "2019-2-25",
+          fixEable: "否",
+          content:"jdfjdfj"
+        }
+      ]
+    };
+  }
+};
 </script>
 
 <style scoped>
-.fix-content{
+.fix{
+  text-align: center;
+}
+.paking-search {
+  width: 280px;
+  margin-bottom: 5px;
+}
+.fix-form {
+  width: 1200px;
+  margin: 0 auto;
+}
+.fix-sumbit {
+  margin-left: 80px;
+  margin-right: 30px;
+}
+.fix-divider {
+  font-size: 14px;
+}
+.fix-list {
   display: flex;
-  align-items: center;
-  flex-direction: column;
+  flex-wrap: wrap;
   overflow-y: scroll;
-  height: 700px;
+  height: 500px;
+  margin: 0 auto;
+}
+.fix-list::-webkit-scrollbar {
+  display: none;
 }
 .fix-card {
-  width: 600px;
-  height: 100px;
-  border-radius: 15px;
-  margin-bottom: 13px;
+  width: 400px;
+  cursor: pointer;
+  margin: 10px 40px;
 }
-.fix-type{
-  font-size: 14px;
-  margin-left: 10px;
+.fix-card-flex {
+  display: flex;
 }
-.fix-msg{
-  margin-top: 10px;
-  height: 40px;
-  float: left;
+.fix-content {
+  width: 300px;
 }
-.fix-msg span{
-  margin-right: 10px;
+.fix-content div {
+  font-size: 18px;
 }
-.fix-opera{
- float: right;
- 
+.fix-icon {
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  margin-right: 30px;
 }
-.fix-opera Button{
-  margin-right: 12px;
+.unfinish {
+  color: rgb(179, 55, 38);
+}
+.finish {
+  color: rgb(51, 206, 51);
 }
 </style>
+

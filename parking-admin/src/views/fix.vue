@@ -1,31 +1,7 @@
 <template>
   <div class="fix">
     <div class="fix-form">
-      <Form label-position="right" inline :label-width="80">
-        <FormItem label="报修名称：">
-          <Input></Input>
-        </FormItem>
-        <FormItem label="报修人：">
-          <Input></Input>
-        </FormItem>
-        <FormItem label="报修类型：">
-          <Select style="width:200px">
-            <Option v-for="item in fixType" :value="item.value" :key="item.value">{{ item.label }}</Option>
-          </Select>
-        </FormItem>
-        <FormItem label="报修日期：">
-          <DatePicker type="date" placeholder="选择日期" style="width: 200px"></DatePicker>
-        </FormItem>
-        <FormItem label="报修详情：">
-          <Input
-            style="width:500px"
-            type="textarea"
-            :autosize="{minRows: 3,maxRows: 3}"
-            placeholder="详情..."
-          ></Input>
-        </FormItem>
-      </Form>
-      <Button type="primary" class="fix-sumbit">提交</Button>
+     <Input search placeholder="请输入报修名称" ></Input>
     </div>
     <Divider>
       <span class="fix-divider">报修记录</span>
@@ -48,20 +24,6 @@ export default {
    components: { fixDesc },
   data() {
     return {
-      fixType: [
-        {
-          value: "报错",
-          label: "报错"
-        },
-        {
-          value: "警告",
-          label: "警告"
-        },
-        {
-          value: "消息",
-          label: "消息"
-        }
-      ],
       finish: "finish",
       carTitle: [
         {
@@ -116,7 +78,7 @@ export default {
 
 <style scoped>
 .fix-form {
-  width: 1200px;
+  width: 300px;
   margin: 0 auto;
 }
 .fix-sumbit {
