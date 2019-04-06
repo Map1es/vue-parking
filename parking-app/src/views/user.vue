@@ -9,16 +9,12 @@
         </Badge>
       </div>
       <router-link to="/info">
-      <div class="user-info clearfix">
+      <div class="user-info">
         <span class="user-info-avatar">
           <span>user</span>
         </span>
         <div class="user-info-message">
           <div class="user-info-name">user-name</div>
-          <div class="user-info-carId">粤A 123456</div>
-        </div>
-        <div class="fr user-forward">
-          <Icon type="ios-arrow-forward" size="35"/>
         </div>
       </div>
       </router-link>
@@ -89,36 +85,23 @@ export default {
   font-weight: 600;
   color: white;
 }
-.user-info {
-  margin: 70px 30px;
-}
 .user-info-avatar {
   display: block;
-  width: 120px;
-  height: 120px;
-  border-radius: 120px;
-  line-height: 120px;
+  width: 160px;
+  height: 160px;
+  border-radius: 160px;
+  line-height: 160px;
   background: white;
   text-align: center;
-  float: left;
-}
-.user-info-message {
-  margin-left: 30px;
-  float: left;
+  margin: 0 auto;
 }
 .user-info-message > div {
   font-size: 32px;
   font-weight: 600;
   color: white;
   font-family: "微软雅黑";
-}
-.user-info-carId {
-  margin-top: 20px;
-}
-.user-forward {
-  float: right;
-  color: white;
-  margin-top: 20px;
+  margin: 20px auto;
+  text-align: center;
 }
 .user-item {
   text-align: center;

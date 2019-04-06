@@ -9,7 +9,7 @@
         <strong>{{ row.fixName }}</strong>
       </template>
       <template slot-scope="{ row, index }" slot="action">
-        <Button type="primary" style="margin-right:10px">完成</Button>
+        <Button type="primary" :disabled="row.fixEable=='是'" style="margin-right:10px">完成</Button>
         <Button type="error">删除</Button>
       </template>
     </Table>
@@ -51,6 +51,7 @@ export default {
         },
         { title: "报修名称", key: "fixName" },
         { title: "报修人", key: "fixUser" },
+        { title: "报修停车场", key: "fixParking" },
         { title: "报修类型", key: "fixType" },
         { title: "报修日期", key: "fixDate", sortable: true },
         {
@@ -69,6 +70,7 @@ export default {
         {
           fixName: "xiaoming",
           fixUser: "xiaoming",
+          fixParking:"大信",
           fixType: "出错",
           fixDate: "2019-2-21",
           fixEable: "是",
@@ -77,6 +79,7 @@ export default {
         {
           fixName: "xiaoming",
           fixUser: "xiaoming",
+          fixParking: "利和",
           fixType: "出错",
           fixDate: "2019-2-25",
           fixEable: "否",
