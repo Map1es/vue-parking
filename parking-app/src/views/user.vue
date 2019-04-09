@@ -1,143 +1,72 @@
-<!-- user.vue -->
 <template>
-  <div class="user">
-    <Card class="user-card">
-      <div class="card-header">
-        <span>个人信息</span>
-        <Badge dot class="fr" style="margin-top:-3px">
-          <Icon type="ios-notifications-outline" size="26"></Icon>
-        </Badge>
-      </div>
-      <router-link to="/info">
-      <div class="user-info">
-        <span class="user-info-avatar">
-          <span>user</span>
-        </span>
-        <div class="user-info-message">
-          <div class="user-info-name">user-name</div>
-        </div>
-      </div>
-      </router-link>
-    </Card>
-    <Card dis-hover>
-      <Row type="flex">
-        <Col class="user-item" span="8" order="1">
-          <span class="user-item-money blue">
-            0.00
-            <span class="user-item-util">元</span>
-          </span>
-          <span class="user-item-span">余额</span>
-        </Col>
-        <Col class="user-item" span="8" order="1">
-          <span class="user-item-money red">
-            9
-            <span class="user-item-util">个</span>
-          </span>
-          <span class="user-item-span">红包</span>
-        </Col>
-        <Col class="user-item" span="8" order="1">
-          <span class="user-item-money yellow">
-            1000
-            <span class="user-item-util">分</span>
-          </span>
-          <span class="user-item-span">积分</span>
-        </Col>
-      </Row>
-    </Card>
-
-    <div class="content-item">
-      <router-link to="/list">
-        <Icon type="ios-document" size="18" style="margin-top:-4px"/>
-        <span class="item-title">我的订单</span>
-      </router-link>
+  <div id="user">
+    <div class="user-header">
+      <div>user</div>
+      <span>user-name</span>
     </div>
-    <div class="content-item">
-      <router-link to="/list">
-        <Icon type="logo-yen" size="18" style="margin-top:-4px"/>
-        <span class="item-title">充值余额</span>
-      </router-link>
+    <div class="user-content">
+      <van-cell title="账单" icon="balance-list" is-link to="list"/>
+      <van-cell title="钱包" icon="card" is-link to="cost"/>
+    </div>
+    <div class="user-content">
+      <van-cell title="退出登录" icon="setting" @click="loginOut"/>
     </div>
   </div>
 </template>
 
 <script>
+import { Cell, CellGroup,Dialog } from "vant";
 export default {
+  components: {
+    [Cell.name]: Cell,
+    [CellGroup.name]: CellGroup,
+    [Dialog.name]: Dialog,
+  },
   data() {
     return {};
+  },
+  methods: {
+    loginOut() {
+      Dialog.confirm({
+        title: "退出登录",
+        message: "是否退出登录？"
+      })
+        .then(() => {
+          this.$router.replace("login");
+        })
+        .catch(() => {
+          
+        });
+    }
   }
 };
 </script>
 
-<style lang='scss' scoped>
-.user {
-  width: 100%;
-  height: 100%;
-}
-.user-card {
-  background: #2d8cf0;
-}
-.card-header {
-  padding: 10px 8px;
-}
-.card-header > span {
-  line-height: 48px;
-  font-size: 32px;
-  font-weight: 600;
-  color: white;
-}
-.user-info-avatar {
-  display: block;
-  width: 160px;
-  height: 160px;
-  border-radius: 160px;
-  line-height: 160px;
-  background: white;
-  text-align: center;
-  margin: 0 auto;
-}
-.user-info-message > div {
-  font-size: 32px;
-  font-weight: 600;
-  color: white;
-  font-family: "微软雅黑";
-  margin: 20px auto;
-  text-align: center;
-}
-.user-item {
-  text-align: center;
-  font-size: 28px;
+<style lang="scss" scoped>
+$blue: #2d8cf0;
+.user-header {
+  height: 4rem;
+  background: $blue;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  div {
+    width: 1.6rem;
+    height: 1.6rem;
+    font-size: 0.24rem;
+    line-height: 1.6rem;
+    border-radius: 0.8rem;
+    border: 0.02rem #f1f1f1 solid;
+  }
+  span {
+    font-size: 0.32rem;
+    margin-top: 0.3rem;
+    color: white;
+  }
 }
-.user-item-money {
-  font-size: 38px;
-  display: block;
-}
-.user-item-util {
-  font-size: 24px;
-}
-.content-item {
-  margin: 20px 0px;
-  height: 60px;
-  width: 100%;
-  background: #fff;
-  line-height: 60px;
-  padding-left: 25px;
-}
-.item-title {
-  margin-left: 10px;
-  font-size: 2em;
-}
-.blue {
-  color: #2d8cf0;
-}
-.red {
-  color: #ed4014;
-}
-.yellow {
-  color: #ff9900;
+.user-content {
+  margin-bottom: 0.2rem;
 }
 </style>

@@ -1,79 +1,94 @@
 <template>
-  <div class="home">
-    <Header>
-      <Input size="large" placeholder="搜索停车场">
-        <Icon type="ios-search" size="20" slot="suffix"/>
-      </Input>
-    </Header>
+  <div id="home">
+    <van-search placeholder="请输入搜索关键词" class="home-search" v-model="value"/>
 
-    <Card shadow class="home-card">
-      <Row type="flex">
-        <Col span="6">
-          <router-link to="/" class="home-button">
-            <Icon type="md-remove-circle" size="30" :style="{color: 'red'}"/>
-            <br>
-            <span class="button-name">违章查询</span>
-          </router-link>
-        </Col>
-        <Col span="6">
-          <router-link to="/" class="home-button">
-            <Icon type="md-battery-charging" size="30" :style="{color: 'skyblue'}"/>
-            <br>
-            <span class="button-name">充电桩查询</span>
-          </router-link>
-        </Col>
-        <Col span="6">
-          <router-link to="/" class="home-button">
-            <Icon type="md-car" size="30"/>
-            <br>
-            <span class="button-name">停车场查询</span>
-          </router-link>
-        </Col>
-        <Col span="6">
-          <router-link to="/" class="home-button">
-            <Icon type="logo-yen" size="30"/>
-            <br>
-            <span class="button-name">缴费查询</span>
-          </router-link>
-        </Col>
-      </Row>
-    </Card>
+    <van-row type="flex" class="home-content">
+      <van-col span="6">
+        <div class="content-item">
+          <van-icon name="clear" color="red"/>
+          <span>违章查询</span>
+        </div>
+      </van-col>
+      <van-col span="6">
+        <div class="content-item">
+          <van-icon name="gold-coin" color="#FFC125"/>
+          <span>缴费查询</span>
+        </div>
+      </van-col>
+      <van-col span="6">
+        <div class="content-item">
+          <van-icon name="map-marked"/>
+          <span>停车场查询</span>
+        </div>
+      </van-col>
+      <van-col span="6">
+        <div class="content-item">
+          <van-icon name="bag" color="#FF7F00"/>
+          <span>车品商城</span>
+        </div>
+      </van-col>
+    </van-row>
+
+    <van-swipe :autoplay="3000" indicator-color="white" class="home-swipe">
+      <van-swipe-item>1</van-swipe-item>
+      <van-swipe-item>2</van-swipe-item>
+      <van-swipe-item>3</van-swipe-item>
+      <van-swipe-item>4</van-swipe-item>
+    </van-swipe>
   </div>
 </template>
 
 <script>
-export default {};
+import { Search, Row, Col, Icon,Swipe,SwipeItem  } from "vant";
+export default {
+  components: {
+    [Search.name]: Search,
+    [Row.name]: Row,
+    [Col.name]: Col,
+    [Icon.name]: Icon,
+    [Swipe.name]: Swipe,
+    [SwipeItem .name]: SwipeItem ,
+  },
+  data() {
+    return {
+      value: ""
+    };
+  }
+};
 </script>
-<style scoped>
-.home {
+
+<style lang="scss" scoped>
+$blue: #2d8cf0;
+$fontColor: #323233;
+#home {
   height: 100%;
-}
-.ivu-layout-header {
-  height: 90px;
-  background: #2d8cf0;
-  border-bottom: 1px #2d8cf0 solid ;
-  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2);
-  text-align: center;
-}
-.home-card {
-  margin: 20px 0px;
-  padding: 10px 0px;
-}
-.ivu-input-wrapper {
-  margin-top: 16px;
-  width: 85%;
-  position: relative;
-}
-.home-button {
-  display: block;
   width: 100%;
-  height: 100%;
-  text-align: center;
+  font-size: 0.28rem;
 }
-.button-name {
-  font-size: 24px;
-  font-weight: 600;
-  line-height: 60px;
+.home-search {
+  background: $blue !important;
+}
+.home-content {
+  height: 1.4rem;
+  background: #fff;
+}
+.content-item {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.6rem;
+  span {
+    font-size: 0.24rem;
+    margin-top: 0.05rem;
+    color: $fontColor;
+  }
+}
+.home-swipe{
+    height: 3rem;
+    background: $blue;
+    margin-top: .3rem;
 }
 </style>
-

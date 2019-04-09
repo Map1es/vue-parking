@@ -2,42 +2,44 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import index from './views/index.vue'
 import home from './views/home.vue'
-import search from './views/search.vue'
 import user from './views/user.vue'
-import list from './views/user/list.vue'
-import info from './views/user/info.vue'
+import list from './views/list.vue'
+import search from './views/search.vue'
+import cost from './views/cost.vue'
+import login from './views/login.vue'
+import registered from './views/registered.vue'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [{
-      path: '/',
-      component: index,
-      children: [{
-          path: '/',
-          component: home
-        }, {
-          path: '/home',
-          component: home
-        }, {
-          path: '/search',
-          component: search,
-          name: 'search'
-        },
-        {
-          path: '/user',
-          component: user,
-          name: 'user'
-        },
-      ]
-    },
-    {
-      path: '/list',
-      component: list
-    },
-    {
-      path: '/info',
-      component: info
-    }
-  ]
+    path: '/',
+    component: login
+  }, {
+    path: '/login',
+    component: login
+  }, {
+    path: '/registered',
+    name: 'registered',
+    component: registered
+  }, {
+    path: '/index',
+    component: index,
+    children: [{
+      path: '/home',
+      component: home
+    }, {
+      path: '/user',
+      component: user,
+    }, {
+      path: '/search',
+      component: search,
+    }]
+  }, {
+    path: '/list',
+    component: list
+  }, {
+    path: '/cost',
+    component: cost
+  }]
 })
