@@ -10,10 +10,10 @@
             </MenuItem>
             <MenuGroup title="车场管理">
               <MenuItem name="parking" >
-                <Icon type="md-car" />车场信息
+                <Icon type="md-browsers" />车场信息
               </MenuItem>
               <MenuItem name="updateParking" >
-                <Icon type="md-car" />信息修改
+                <Icon type="md-pricetags" />信息修改
               </MenuItem>
             </MenuGroup>
             <MenuGroup title="停车管理">
@@ -26,7 +26,7 @@
                 <Icon type="md-build"/>上报功能
               </MenuItem>
               <MenuItem name="fix" >
-                <Icon type="md-build"/>报修信息
+                <Icon type="md-hammer" />报修信息
               </MenuItem>
             </MenuGroup>
           </Menu>

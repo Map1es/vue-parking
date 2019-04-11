@@ -16,7 +16,7 @@
       </div>
       <div class="expand-item">
         <div class="expand-key">修理时间：</div>
-        <div class="expand-value">{{ row.fixDate }}</div>
+        <div class="expand-value">{{ row.fixTime }}</div>
       </div>
       <div class="expand-item">
         <div class="expand-key">修理描述：</div>

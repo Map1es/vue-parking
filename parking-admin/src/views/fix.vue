@@ -128,11 +128,16 @@ export default {
           } else {
             _this.carData[i].state = "否";
           }
-          if (_this.carData[i].reportTime) {
-            _this.carData[i].reportTime = _this.gettime(
-              _this.carData[i].reportTime
+          if (_this.carData[i].fixTime) {
+            _this.carData[i].fixTime = _this.gettime(
+              _this.carData[i].fixTime
             );
           }
+           if (_this.carData[i].reportTime) {
+              _this.carData[i].reportTime = _this.gettime(
+                _this.carData[i].reportTime
+              );
+            }
         }
         _this.searchCar = _this.carData;
       })
@@ -178,6 +183,7 @@ export default {
     },
     updateModal(fix) {
       this.modal1 = true;
+      this.fix.id = fix.id;
       this.fix.deviceNo = fix.deviceNo;
       this.fix.reportTitle = fix.reportTitle;
       this.fix.reportType = fix.reportType;
@@ -190,8 +196,7 @@ export default {
         method: "PUT",
         url: _this.url + "repair/info/update",
         data: {
-          id: _this.id,
-          garageId: 137,
+          id: _this.fix.id,
           deviceNo: _this.fix.deviceNo,
           reportTitle: _this.fix.reportTitle,
           reportType: _this.fix.reportType,
@@ -212,9 +217,60 @@ export default {
           _this.$Message.error("服务器出错，请稍后再试");
           console.log(err);
         });
+
+      this.axios({
+        method: "get",
+        url: _this.url + "repair/info/queryList"
+      })
+        .then(function(res) {
+          _this.carData = res.data.rows;
+          for (let i = 0; i < _this.carData.length; i++) {
+            if (_this.carData[i].state == true) {
+              _this.carData[i].state = "是";
+            } else {
+              _this.carData[i].state = "否";
+            }
+            if (_this.carData[i].fixTime) {
+              _this.carData[i].fixTime = _this.gettime(
+                _this.carData[i].fixTime
+              );
+            }
+             if (_this.carData[i].reportTime) {
+              _this.carData[i].reportTime = _this.gettime(
+                _this.carData[i].reportTime
+              );
+            }
+          }
+          _this.searchCar = _this.carData;
+        })
+        .catch(function(err) {
+          console.log(err);
+        });
     },
     cancel() {
       this.$Message.info("取消修改");
+    },
+    gettime(t) {
+      var _time = new Date(t);
+      var year = _time.getFullYear();
+      var month = _time.getMonth() + 1;
+      var date = _time.getDate();
+      var hour = _time.getHours();
+      var minute = _time.getMinutes();
+      var second = _time.getSeconds();
+      return (
+        year +
+        "-" +
+        month +
+        "-" +
+        date +
+        " " +
+        hour +
+        ":" +
+        minute +
+        ":" +
+        second
+      ); //这里自己按自己需要的格式拼接
     }
   }
 };
