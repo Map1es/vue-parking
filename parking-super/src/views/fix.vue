@@ -1,15 +1,21 @@
 <template>
   <div class="fix">
-    <Input search placeholder="搜索停车场" class="paking-search"/>
+    <Input
+      @on-change="queryItems(queryvalue)"
+      v-model="queryvalue"
+      search
+      placeholder="搜索停车场"
+      class="paking-search"
+    />
     <Divider>
       <span class="fix-divider">报修记录</span>
     </Divider>
-    <Table height="500" small :columns="carTitle" :data="carData">
+    <Table height="500" small :columns="carTitle" :data="searchCar">
       <template slot-scope="{ row }" slot="fixName">
         <strong>{{ row.fixName }}</strong>
       </template>
       <template slot-scope="{ row, index }" slot="action">
-        <Button type="primary" :disabled="row.fixEable=='是'" style="margin-right:10px">完成</Button>
+        <Button type="primary" :disabled="row.state=='是'" style="margin-right:10px">完成</Button>
         <Button type="error">删除</Button>
       </template>
     </Table>
@@ -17,11 +23,12 @@
 </template>
 
 <script>
-import fixDesc from '../components/fix-desc.vue';
+import fixDesc from "../components/fix-desc.vue";
 export default {
-   components: { fixDesc },
+  components: { fixDesc },
   data() {
     return {
+      url: this.$store.state.url,
       fixType: [
         {
           value: "报错",
@@ -49,14 +56,14 @@ export default {
             });
           }
         },
-        { title: "报修名称", key: "fixName" },
-        { title: "报修人", key: "fixUser" },
-        { title: "报修停车场", key: "fixParking" },
-        { title: "报修类型", key: "fixType" },
-        { title: "报修日期", key: "fixDate", sortable: true },
+        { title: "报修名称", key: "reportTitle" },
+        { title: "报修人", key: "reportUser" },
+        { title: "报修停车场", key: "garageName" },
+        { title: "报修类型", key: "reportType" },
+        { title: "报修日期", key: "reportDate", sortable: true },
         {
           title: "是否完成",
-          key: "fixEable",
+          key: "state",
           sortable: true
         },
         {
@@ -66,33 +73,52 @@ export default {
           align: "center"
         }
       ],
-      carData: [
-        {
-          fixName: "xiaoming",
-          fixUser: "xiaoming",
-          fixParking:"大信",
-          fixType: "出错",
-          fixDate: "2019-2-21",
-          fixEable: "是",
-          content:"1231223123"
-        },
-        {
-          fixName: "xiaoming",
-          fixUser: "xiaoming",
-          fixParking: "利和",
-          fixType: "出错",
-          fixDate: "2019-2-25",
-          fixEable: "否",
-          content:"jdfjdfj"
-        }
-      ]
+      carData: [],
+      searchCar: [],
+      queryvalue: ""
     };
+  },
+  created: function() {
+    let _this = this;
+    this.axios({
+      method: "get",
+      url: _this.url + "repair/info/queryList"
+    })
+      .then(function(res) {
+        _this.carData = res.data.rows;
+        for (let i = 0; i < _this.carData.length; i++) {
+          if (_this.carData[i].state == true) {
+            _this.carData[i].state = "是";
+          } else {
+            _this.carData[i].state = "否";
+          }
+        }
+        _this.searchCar = _this.carData;
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
+  },
+  methods: {
+    queryItems: function(value) {
+      this.searchCar = [];
+      if (value != "") {
+        for (let i = 0; i < this.carData.length; i++) {
+          setTimeout(() => {});
+          if (this.carData[i].garageName.includes(value)) {
+            this.searchCar.push(this.carData[i]);
+          }
+        }
+      } else {
+        this.searchCar = this.carData;
+      }
+    }
   }
 };
 </script>
 
 <style scoped>
-.fix{
+.fix {
   text-align: center;
 }
 .paking-search {

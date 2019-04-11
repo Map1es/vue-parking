@@ -8,7 +8,7 @@
             <Icon type="md-close-circle" size="60"/>
           </div>
           <div class="msg-content">
-            <div class="msg-number">132</div>
+            <div class="msg-number">{{opinionData[0].value}}</div>
             <div class="msg-title">报错数量</div>
           </div>
         </div>
@@ -19,7 +19,7 @@
             <Icon type="md-alert" size="60"/>
           </div>
           <div class="msg-content">
-            <div class="msg-number">202</div>
+            <div class="msg-number">{{opinionData[1].value}}</div>
             <div class="msg-title">警告数量</div>
           </div>
         </div>
@@ -30,7 +30,7 @@
             <Icon type="md-chatbubbles" size="60"/>
           </div>
           <div class="msg-content">
-            <div class="msg-number">82</div>
+            <div class="msg-number">{{opinionData[2].value}}</div>
             <div class="msg-title">消息数量</div>
           </div>
         </div>
@@ -51,15 +51,41 @@ import echarts from "echarts";
 export default {
   data() {
     return {
+      url: this.$store.state.url,
       charts: "",
       opinion: ["报错", "警告", "信息"],
       opinionData: [
-        { value: 335, name: "报错" },
-        { value: 310, name: "警告" },
-        { value: 234, name: "信息" }
+        { value: 0, name: "报错" },
+        { value: 0, name: "警告" },
+        { value: 0, name: "信息" }
       ],
       carFlow: [1022, 5244, 2020, 3334, 4390, 5330, 2220]
     };
+  },
+  created() {
+    let _this = this;
+    this.axios({
+      method: "get",
+      url: _this.url + "repair/count/garage"
+    })
+      .then(res => {
+        let data = res.data;
+        for (let i = 0; i < data.length; i++) {
+          if (data[i].reportType == "消息") {
+            _this.opinionData[2].value = data[i].num;
+          } else if (data[i].reportType == "警告") {
+            _this.opinionData[1].value = data[i].num;
+          } else if (data[i].reportType == "报错") {
+            _this.opinionData[0].value = data[i].num;
+          }
+        }
+
+        this.drawPie("pie");
+        this.drawBar("bar");
+      })
+      .catch(err => {
+        console.log(err);
+      });
   },
   methods: {
     drawPie(id) {
@@ -175,10 +201,6 @@ export default {
   },
   //调用
   mounted() {
-    this.$nextTick(function() {
-      this.drawPie("pie");
-      this.drawBar("bar");
-    });
   }
 };
 </script>

@@ -20,6 +20,7 @@
       </FormItem>
       <FormItem>
         <Button type="primary" :style="{marginRight:'20px'}" @click="sumbit">提交</Button>
+        <Button @click="goback">返回</Button>
       </FormItem>
     </Form>
   </div>
@@ -31,6 +32,7 @@ export default {
     return {
       url: this.$store.state.url,
       parking: {
+        garageId: this.$route.query.garageId,
         name: "",
         number: 0,
         map: {
@@ -45,19 +47,19 @@ export default {
     let _this = this;
     this.axios({
       method: "get",
-      url: _this.url + "garage/info/query/137"
+      url: _this.url + "garage/info/query/" + _this.parking.garageId
     })
       .then(res => {
         _this.parking.name = res.data.garageName;
-        _this.parking.details = res.data.details;
-        _this.parking.attribute = res.data.attribute;
         _this.parking.number = res.data.sumSapce;
+        _this.parking.realnum = res.data.realSpace;
+        _this.parking.details = res.data.details;
         let mapIndex = res.data.latitudeAndLongitude.indexOf("，");
         _this.parking.map.x = res.data.latitudeAndLongitude.slice(0, mapIndex);
-        _this.parking.map.y = res.data.latitudeAndLongitude.slice(mapIndex+1);
+        _this.parking.map.y = res.data.latitudeAndLongitude.slice(mapIndex + 1);
       })
       .catch(err => {
-        console.log(res);
+        console.log(err);
       });
   },
   methods: {
@@ -70,7 +72,7 @@ export default {
         method: "put",
         url: _this.url + "garage/info",
         data: {
-          garageId: 137,
+          garageId: _this.parking.garageId,
           garageName: _this.parking.name,
           latitudeAndLongitude:
             _this.parking.map.x + "，" + _this.parking.map.y,
@@ -80,9 +82,9 @@ export default {
         }
       })
         .then(res => {
-          console.log(res);
           if (res.status == 204) {
             _this.$Message.success("修改成功");
+            _this.$router.push("/parking");
           } else if (res.status == 400) {
             _this.$Message.error("请填写完整");
           } else {
@@ -100,11 +102,10 @@ export default {
 <style scoped>
 .addParking-title {
   text-align: center;
-  font-size: 26px;
 }
 .addFrom {
   margin: 20px auto;
-  width: 60%;
+  width: 800px;
 }
 .form-map {
   width: 30%;

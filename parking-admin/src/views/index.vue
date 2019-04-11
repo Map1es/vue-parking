@@ -8,7 +8,7 @@
             <Icon type="md-person-add" size="50"/>
           </div>
           <div class="msg-content">
-            <div class="msg-number">132</div>
+            <div class="msg-number">12</div>
             <div class="msg-title">新增用户</div>
           </div>
         </div>
@@ -19,7 +19,7 @@
             <Icon type="md-car" size="50"/>
           </div>
           <div class="msg-content">
-            <div class="msg-number">132</div>
+            <div class="msg-number">{{flowSum}}</div>
             <div class="msg-title">总流量</div>
           </div>
         </div>
@@ -41,30 +41,13 @@
             <Icon type="md-build" size="50"/>
           </div>
           <div class="msg-content">
-            <div class="msg-number">132</div>
+            <div class="msg-number">{{fixSum}}</div>
             <div class="msg-title">报修数量</div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- <Card class="parking-card">
-      <div class="parking-title">车位实时信息</div>
-      <div class="parking-msg">
-        <div class="msg-content">
-          <span class="msg-number info">1231</span>
-          <h4 class="msg-title">总车位数</h4>
-        </div>
-        <div class="msg-content">
-          <span class="msg-number success">831</span>
-          <h4 class="msg-title">剩余车位</h4>
-        </div>
-        <div class="msg-content">
-          <span class="msg-number error">431</span>
-          <h4 class="msg-title">已停车位</h4>
-        </div>
-      </div>
-    </Card>-->
     <Card class="echarts-pie" shadow>
       <h1 class="pie-title">车位实时信息</h1>
       <div id="pie" style="width: 500px;height:300px;"></div>
@@ -82,59 +65,63 @@ export default {
   data() {
     return {
       url: this.$store.state.url,
+      fixSum: 0,
       charts: "",
+      flowSum:0,
       opinion: ["已停车位", "剩余车位"],
       opinionData: [
         { value: 0, name: "已停车位" },
         { value: 0, name: "剩余车位" }
       ],
-      carFlow: [1022, 5244, 2020, 3334, 4390, 5330, 2220],
+      carFlow: [],
       parking: null
     };
   },
   created: function() {
     let _this = this;
-    this.axios({
+     this.axios({
       method: "get",
-      url: _this.url + "garage/info/137"
+      url: _this.url + "garage/info/query/137"
     })
       .then(function(res) {
         _this.parking = res.data;
-        _this.opinionData[0].value = _this.parking.sumSapce - _this.parking.realSpace;
-        _this.opinionData[1].value = _this.parking.realSpace;
+        _this.opinionData[0].value = res.data.realSpace-res.data.sumSapce;
+        _this.opinionData[1].value = res.data.realSpace;
         _this.drawPie("pie");
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
+    this.axios({
+      method: "get",
+      url: _this.url + "repair/count/garage",
+      params:{
+        garageId:137
+      }
+    })
+      .then(function(res) {
+        let data = res.data;
+        for (let i = 0; i < data.length; i++) {
+           _this.fixSum += data[i].num;
+        }
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
+    this.axios({
+      method: "get",
+      url: _this.url + "bill/count/garage/lastweek/137",
+    })
+      .then(function(res) {
+        _this.carFlow = res.data;
+        for(let i = 0; i < res.data.length;i++){
+          _this.flowSum += res.data[i]
+        }
         _this.drawBar("bar");
       })
       .catch(function(err) {
         console.log(err);
       });
-    this.axios({
-      method: "get",
-      url: _this.url + "bill/count/garage/lastweek/137"
-    })
-      .then(function(res) {
-        _this.carFlow = res.data;
-      })
-      .catch(function(err) {
-        console.log(err);
-      });
-    // this.axios({
-    //   method: "post",
-    //   url: _this.url + "garage/info",
-    //   data: {
-    //     garageName: "大信",
-    //     latitudeAndLongitude: "123123123",
-    //     details: "大信",
-    //     attribute: "地面免费",
-    //     sumSapce: 1
-    //   }
-    // })
-    //   .then(function(res) {
-    //     console.log(res);
-    //   })
-    //   .catch(function(err) {
-    //     console.log(err);
-    //   });
   },
   methods: {
     drawPie(id) {
@@ -252,8 +239,7 @@ export default {
     }
   },
   //调用
-  mounted: function() {
-  }
+  mounted: function() {}
 };
 </script>
 
