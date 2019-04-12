@@ -83,7 +83,7 @@ export default {
           console.log(res);
           if (res.status == 204) {
             _this.$Message.success("修改成功");
-            _this.$router.push("parking")
+            _this.$router.push("parking");
           } else if (res.status == 400) {
             _this.$Message.error("请填写完整");
           } else {
@@ -94,7 +94,7 @@ export default {
           _this.$Message.error("服务器出错，请稍后再试");
           console.log(res);
         });
-    }
+    },
   }
 };
 </script>

@@ -8,6 +8,7 @@ import fix from './views/fix.vue'
 import addFix from './views/addFix.vue'
 import car from './views/car.vue'
 import parking from './views/parking.vue'
+import upload from './views/upload.vue'
 
 
 Vue.use(Router)
@@ -44,6 +45,10 @@ export default new Router({
         {
           path: '/car',
           component: car
+        },
+        {
+          path: '/upload',
+          component: upload
         }
       ]
     }

@@ -1,12 +1,27 @@
 <template>
   <div class="Parking">
-    <Form :label-width="100" class="parkingFrom">
-      <FormItem label="停车场名称：">{{parking.name}}</FormItem>
-      <FormItem label="车位总数量：">{{parking.number}}</FormItem>
-      <FormItem label="车位空闲数量：">{{parking.realnum}}</FormItem>
-      <FormItem label="停车场经纬度：">{{parking.map}}</FormItem>
-      <FormItem label="详情：">{{parking.details}}</FormItem>
-    </Form>
+    <div class="parking-form">
+      <div class="form-item">
+        <div class="item-name">停车场名称：</div>
+        <span class="item-content">{{parking.name}}</span>
+      </div>
+      <div class="form-item">
+        <div class="item-name">车位总数量：</div>
+        <div class="item-content">{{parking.number}}</div>
+      </div>
+      <div class="form-item">
+        <div class="item-name">车位空闲数量：</div>
+        <div class="item-content">{{parking.realnum}}</div>
+      </div>
+      <div class="form-item">
+        <div class="item-name">停车场经纬度：</div>
+        <div class="item-content">{{parking.map}}</div>
+      </div>
+      <div class="form-item">
+        <div class="item-name">详情：</div>
+        <div class="item-content">{{parking.details}}</div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -51,9 +66,25 @@ export default {
 </script>
 
 <style scoped>
-.parkingFrom {
+.parking-form {
   margin: 20px auto;
   width: 60%;
+}
+.form-item{
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  display: flex;
+}
+.item-name{
+  text-align: end;
+  display: inline-block;
+  width: 160px;
+}
+.item-content{
+  margin-left: 10px;
+  display: inline-block;
+  width: 65%;
 }
 </style>
 

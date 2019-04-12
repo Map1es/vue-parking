@@ -80,8 +80,8 @@ export default {
           }
         }
 
-        this.drawPie("pie");
-        this.drawBar("bar");
+        _this.drawPie("pie");
+        _this.drawBar("bar");
       })
       .catch(err => {
         console.log(err);

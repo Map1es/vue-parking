@@ -6,6 +6,8 @@
 </template>
 <script>
 import { NavBar, Panel, Button } from "vant";
+import { constants } from "crypto";
+import { mkdir } from "fs";
 export default {
   components: {
     [NavBar.name]: NavBar,
@@ -14,37 +16,26 @@ export default {
   },
   data() {
     return {
-      mapPoint: {
-        x: "",
-        y: ""
-      }
+      mapPointX: 0,
+      mapPointY: 0,
+      totalResults: []
     };
   },
-  created() {
-    // this.axios({
-    //   method: "post",
-    //   url: "http://api.map.baidu.com/location/ip"
-    // })
-    //   .then(res => {
-    //     console.log(res);
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
-  },
+  created() {},
   methods: {
     setMap: function() {
       let _this = this;
       var map = new BMap.Map("allmap");
-      var point = new BMap.Point(113.42206002, 22.54517751);
-      map.centerAndZoom(point, 15);
+      var point = new BMap.Point(222222.542351, 11123.42002);
+      map.centerAndZoom(point, 16);
+      map.addControl(navigationControl);
       //显示地图控件
       var navigationControl = new BMap.NavigationControl({
-        anchor: BMAP_ANCHOR_BOTTOM_RIGHT,
-        type: BMAP_NAVIGATION_CONTROL_LARGE,
+        anchor: BMAP_ANCHOR_TOP_RIGHT,
+        type: BMAP_NAVIGATION_CONTROL_ZOOM,
         enableGeolocation: true
       });
-      map.addControl(navigationControl);
+
       //获取定位
       var geolocation = new BMap.Geolocation();
       geolocation.getCurrentPosition(
@@ -53,15 +44,16 @@ export default {
             var mk = new BMap.Marker(r.point);
             map.addOverlay(mk);
             map.panTo(r.point);
-            _this.mapPoint.x = r.point.lng;
-            _this.mapPoint.x = r.point.lat;
+            _this.mapPointX = r.point.lng;
+            _this.mapPointY = r.point.lat;
+          
           } else {
-            alert("failed" + this.getStatus());
+            console.log("无法定位到您的当前位置" + this.getStatus());
           }
         },
         { enableHighAccuracy: true }
       );
-
+      //检索
       var myKeys = ["停车场"];
       var local = new BMap.LocalSearch(map, {
         renderOptions: { map: map, panel: "r-result" },
@@ -71,7 +63,7 @@ export default {
     }
   },
   mounted() {
-    this.setMap();
+    this.$nextTick(this.setMap);
   }
 };
 </script>
@@ -80,13 +72,14 @@ export default {
 .search {
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 #allmap {
   width: 100%;
-  height: 40%;
+  height: 30%;
 }
-#r-result{
-  width: 100%;
-  height: 50%;
+#r-result {
+  font-size: 0.12rem;
 }
 </style>

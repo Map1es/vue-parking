@@ -4,31 +4,41 @@
       <Layout>
         <Sider hide-trigger class="layout-sider">
           <div class="layout-logo">AI planning</div>
-          <Menu active-name="index" :v-model="active" theme="dark" width="auto" @on-select="routeTo">
+          <Menu
+            ref="menu"
+            :active-name="menu"
+            :v-model="menu"
+            theme="dark"
+            width="auto"
+            @on-select="routeTo"
+          >
             <MenuItem name="index">
               <Icon type="md-home"/>首页
             </MenuItem>
             <MenuGroup title="车场管理">
-              <MenuItem name="parking" >
-                <Icon type="md-browsers" />车场信息
+              <MenuItem name="parking">
+                <Icon type="md-browsers"/>车场信息
               </MenuItem>
-              <MenuItem name="updateParking" >
-                <Icon type="md-pricetags" />信息修改
+              <MenuItem name="updateParking">
+                <Icon type="md-pricetags"/>信息修改
               </MenuItem>
             </MenuGroup>
             <MenuGroup title="停车管理">
-              <MenuItem name="car" >
-                <Icon type="md-car" />停车记录
+              <MenuItem name="car">
+                <Icon type="md-car"/>停车记录
               </MenuItem>
             </MenuGroup>
             <MenuGroup title="报修系统">
-              <MenuItem name="addFix" >
+              <MenuItem name="addFix">
                 <Icon type="md-build"/>上报功能
               </MenuItem>
-              <MenuItem name="fix" >
-                <Icon type="md-hammer" />报修信息
+              <MenuItem name="fix">
+                <Icon type="md-hammer"/>报修信息
               </MenuItem>
             </MenuGroup>
+            <MenuItem name="upload">
+              <Icon type="md-hammer"/>车牌识别
+            </MenuItem>
           </Menu>
         </Sider>
         <Layout>
@@ -43,7 +53,7 @@
             </Dropdown>
           </Header>
           <Content class="layout-content">
-              <router-view></router-view>
+            <router-view></router-view>
           </Content>
         </Layout>
       </Layout>
@@ -53,16 +63,22 @@
 
 <script>
 export default {
-  data(){
+  data() {
     return {
-      active: "index"
+      menu: "index"
+    };
+  },
+  methods: {
+    routeTo(e) {
+      this.$router.push(e);
     }
   },
-   methods: {
-        routeTo(e) {
-            this.$router.push(e);
-        }       
-    }
+  mounted() {
+    this.$nextTick(() => {
+      this.menu = this.$route.path.slice(1);
+      this.$refs.menu.updateActiveName();
+    });
+  }
 };
 </script>
 
