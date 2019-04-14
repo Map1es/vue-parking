@@ -1,18 +1,24 @@
 <template>
-  <div id="cost">
-    <van-nav-bar title="钱包" left-arrow @click-left="onClickLeft" fixed/>
-    <div class="cost-content">
-      <van-cell title="余额" icon="gold-coin" is-link :value="user.accountbalance+'元'"/>
-      <van-cell title="积分" icon="card" is-link :value="user.bonuspoints+'分'"/>
-      <van-cell title="优惠劵" icon="coupon" is-link value="无优惠券"/>
-      <van-cell title="支付方式" icon="bill" is-link value="余额支付"/>
+  <div id="userInfo">
+    <van-nav-bar
+      title="基本信息"
+      left-arrow
+      @click-left="onClickLeft"
+      @click-right="update"
+      right-text="修改"
+      fixed
+    />
+    <div class="userInfo-content">
+      <van-cell title="账户名" value-class="cell-value" :value="user.name"/>
+      <van-cell title="车牌号" value-class="cell-value" :value="user.platenum"/>
+      <van-cell title="手机号" value-class="cell-value" :value="user.phone"/>
+      <van-cell title="邮箱" value-class="cell-value" :value="user.email"/>
     </div>
   </div>
 </template>
 
 <script>
 import { NavBar, Panel, Button, cell } from "vant";
-import { mapState } from 'vuex'
 export default {
   components: {
     [NavBar.name]: NavBar,
@@ -32,6 +38,7 @@ export default {
   },
   created() {
     let _this = this;
+    this.$store.dispatch("reflashSet");
     this.axios({
       url: _this.url + "user/getuserinfo",
       method: "get",
@@ -41,12 +48,6 @@ export default {
     })
       .then(res => {
         _this.user = res.data;
-        if (!_this.user.accountbalance) {
-            _this.user.accountbalance = 0
-        }
-        if(!_this.user.bonuspoints){
-          _this.user.bonuspoints = 0
-        }
       })
       .catch(err => {
         console.log(err);
@@ -55,6 +56,9 @@ export default {
   methods: {
     onClickLeft() {
       this.$router.go(-1);
+    },
+    update(){
+        this.$router.push('updateUser');
     }
   }
 };
@@ -62,14 +66,14 @@ export default {
 
 <style lang="scss" scoped>
 $blue: #2d8cf0;
-#cost {
+#userInfo {
   font-size: 0.24rem;
   background: #ebedf0;
 }
-.cost-content {
+.userInfo-content {
   margin-top: 0.84rem;
-  .van-cell:last-child {
-    margin-top: 0.2rem;
-  }
+}
+.cell-value {
+  color: black;
 }
 </style>

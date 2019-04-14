@@ -3,34 +3,84 @@
     <van-nav-bar left-arrow @click-left="onClickLeft" title="用户注册"/>
     <div class="login-content">
       <van-cell-group label-align="right">
-        <van-field v-model="user.name" clearable label="用户名" placeholder="请输入用户名"/>
+        <van-field v-model="user.username" clearable label="账号" placeholder="请输入账号"/>
         <van-field v-model="user.password" type="password" label="密码" placeholder="请输入密码"/>
-        <van-field v-model="user.tel"  label="手机号" placeholder="请输入手机号"/>
+        <van-field v-model="user.name"  label="车主姓名" placeholder="请输入姓名"/>
+        <van-field v-model="user.phone" label="手机号" placeholder="请输入手机号"/>
+        <van-field v-model="user.platenum" label="车牌号" placeholder="请输入车牌号"/>
       </van-cell-group>
-      <van-button type="info" to="login">确认</van-button>
+      <van-button type="info" @click="sumbit">确认</van-button>
     </div>
   </div>
 </template>
 
 <script>
-import { NavBar, Field, CellGroup, Button } from "vant";
+import { NavBar, Field, CellGroup, Button,Toast } from "vant";
 export default {
   components: {
     [NavBar.name]: NavBar,
     [Field.name]: Field,
     [CellGroup.name]: CellGroup,
-    [Button.name]: Button
+    [Button.name]: Button,
+    [Toast.name]: Toast,
   },
   data() {
     return {
+      url: this.$store.state.url1,
       user: {
         name: "",
         password: "",
-        tel:""
+        username: "",
+        phone: "",
+        platenum: ""
       }
     };
   },
   methods: {
+    sumbit() {
+      let _this = this;
+      if (this.user.userName == "") {
+        Toast({
+          duration: 2000,
+          message: "用户名不能为空"
+        });
+      } else if (this.user.password == "") {
+        Toast({
+          duration: 2000,
+          message: "密码不能为空"
+        });
+      } else {
+        this.axios({
+          url: _this.url + "user/register",
+          method: "get",
+          params: {
+            username: _this.user.username,
+            password: _this.user.password,
+            name: _this.user.name,
+            phone: _this.user.phone,
+            platenum: _this.user.platenum
+          }
+        })
+          .then(res => {
+            console.log(res);
+            if (res.status == 200) {
+              _this.$router.replace("login");
+            }else{
+              Toast({
+                duration: 2000,
+                message: "注册失败"
+              });
+            }
+          })
+          .catch(err => {
+           Toast({
+                duration: 2000,
+                message: "注册失败"
+              });
+            console.log(err);
+          });
+      }
+    },
     onClickLeft() {
       this.$router.go(-1);
     }

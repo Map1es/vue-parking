@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { Tabbar, TabbarItem } from "vant";
+import { Tabbar, TabbarItem, Search } from "vant";
 export default {
   components: {
     [Tabbar.name]: Tabbar,
@@ -21,6 +21,16 @@ export default {
       value: "",
       active: 0
     };
+  },
+  mounted() {
+    this.$nextTick(() => {
+      let active = this.$route.path.slice(1);
+      if (active == "home") {
+        this.active = 0;
+      } else if (active == "search") {
+        this.active = 1;
+      } else if (active == "user") this.active = 2;
+    });
   }
 };
 </script>
@@ -30,7 +40,6 @@ $blue: #2d8cf0;
 #index {
   height: 100%;
   width: 100%;
-
 }
 .home-search {
   background: $blue !important;

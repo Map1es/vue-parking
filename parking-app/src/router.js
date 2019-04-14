@@ -8,6 +8,8 @@ import search from './views/search.vue'
 import cost from './views/cost.vue'
 import login from './views/login.vue'
 import registered from './views/registered.vue'
+import updateUser from './views/user/updateUser.vue'
+import userInfo from './views/user/userInfo.vue'
 
 Vue.use(Router)
 
@@ -41,5 +43,13 @@ export default new Router({
   }, {
     path: '/cost',
     component: cost
+  }, 
+  {
+    path: '/updateUser',
+    component: updateUser
+  },
+  {
+    path: '/userInfo',
+    component: userInfo
   }]
 })

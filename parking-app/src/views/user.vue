@@ -1,8 +1,14 @@
 <template>
   <div id="user">
     <div class="user-header">
-      <div>user</div>
-      <span>user-name</span>
+      <router-link to="userInfo">
+        <div>
+          <van-icon name="manager"/>
+        </div>
+      </router-link>
+      <span>
+        <router-link to="userInfo">{{user.name}}</router-link>
+      </span>
     </div>
     <div class="user-content">
       <van-cell title="账单" icon="balance-list" is-link to="list"/>
@@ -15,15 +21,40 @@
 </template>
 
 <script>
-import { Cell, CellGroup,Dialog } from "vant";
+import { Cell, CellGroup, Dialog, Icon } from "vant";
 export default {
   components: {
     [Cell.name]: Cell,
     [CellGroup.name]: CellGroup,
     [Dialog.name]: Dialog,
+    [Icon.name]: Icon
   },
   data() {
-    return {};
+    return {
+      url: this.$store.state.url1,
+      userid: this.$store.state.userid,
+      user: {}
+    };
+  },
+  beforeCreate() {
+    this.$store.dispatch("reflashSet");
+  },
+  created() {
+    let _this = this;
+    this.$store.dispatch("reflashSet");
+    this.axios({
+      url: _this.url + "user/getuserinfo",
+      method: "get",
+      params: {
+        userid: _this.userid
+      }
+    })
+      .then(res => {
+        _this.user = res.data;
+      })
+      .catch(err => {
+        console.log(err);
+      });
   },
   methods: {
     loginOut() {
@@ -34,9 +65,7 @@ export default {
         .then(() => {
           this.$router.replace("login");
         })
-        .catch(() => {
-          
-        });
+        .catch(() => {});
     }
   }
 };
@@ -55,14 +84,17 @@ $blue: #2d8cf0;
   div {
     width: 1.6rem;
     height: 1.6rem;
-    font-size: 0.24rem;
-    line-height: 1.6rem;
+    line-height: 1.8rem;
     border-radius: 0.8rem;
     border: 0.02rem #f1f1f1 solid;
+    color: #f1f1f1;
   }
   span {
     font-size: 0.32rem;
     margin-top: 0.3rem;
+    color: white;
+  }
+  a:-webkit-any-link {
     color: white;
   }
 }

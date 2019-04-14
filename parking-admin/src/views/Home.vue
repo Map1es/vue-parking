@@ -36,9 +36,11 @@
                 <Icon type="md-hammer"/>报修信息
               </MenuItem>
             </MenuGroup>
-            <MenuItem name="upload">
+            <MenuGroup title="流程模拟">
+             <MenuItem name="upload">
               <Icon type="md-hammer"/>车牌识别
             </MenuItem>
+            </MenuGroup>
           </Menu>
         </Sider>
         <Layout>

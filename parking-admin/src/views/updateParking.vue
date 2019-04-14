@@ -12,6 +12,9 @@
         <Input v-model="parking.map.x" placeholder="输入经度" class="form-map"></Input>
         <Input v-model="parking.map.y" placeholder="输入纬度" class="form-map"></Input>
       </FormItem>
+      <FormItem label="收费标准：" prop="fee">
+        <InputNumber v-model="parking.fee"></InputNumber> 元/小时
+      </FormItem>
       <!-- <FormItem label="管理员：" prop="admin">
         <Input v-model="parking.admin" placeholder="请输入管理员账号"></Input>
       </FormItem>-->
@@ -37,7 +40,8 @@ export default {
           x: "",
           y: ""
         },
-        details: ""
+        details: "",
+        fee: 0
       }
     };
   },
@@ -54,11 +58,21 @@ export default {
         _this.parking.number = res.data.sumSapce;
         let mapIndex = res.data.latitudeAndLongitude.indexOf("，");
         _this.parking.map.x = res.data.latitudeAndLongitude.slice(0, mapIndex);
-        _this.parking.map.y = res.data.latitudeAndLongitude.slice(mapIndex+1);
+        _this.parking.map.y = res.data.latitudeAndLongitude.slice(mapIndex + 1);
       })
       .catch(err => {
         console.log(res);
       });
+    // this.axios({
+    //   method: "get",
+    //   url: _this.url + "fee/scale/137"
+    // })
+    //   .then(res => {
+    //     console.log(res);
+    //   })
+    //   .catch(err => {
+    //     console.log(res);
+    //   });
   },
   methods: {
     goback() {
@@ -94,7 +108,8 @@ export default {
           _this.$Message.error("服务器出错，请稍后再试");
           console.log(res);
         });
-    },
+
+    }
   }
 };
 </script>

@@ -4,7 +4,7 @@
       @on-change="queryItems(queryvalue)"
       v-model="queryvalue"
       search
-      placeholder="搜索停车场"
+      placeholder="搜索报修名称"
       class="paking-search"
     />
     <Divider>

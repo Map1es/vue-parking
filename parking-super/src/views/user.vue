@@ -3,7 +3,7 @@
     <div class="car-form">
       <Form label-position="right" inline :label-width="80">
         <FormItem>
-          <Select style="width:100px">
+          <Select v-model="type" style="width:100px">
             <Option
               v-for="item in searchType"
               :value="item.value"
@@ -12,17 +12,19 @@
           </Select>
         </FormItem>
         <FormItem>
-          <Input></Input>
-        </FormItem>
-        <FormItem>
-          <Button type="primary">搜索</Button>
+          <Input
+            @on-change="queryItems(queryvalue)"
+            v-model="queryvalue"
+            search
+            style="width:290px"
+          ></Input>
         </FormItem>
       </Form>
     </div>
     <Divider>
       <span class="car-divider">停车记录</span>
     </Divider>
-    <Table height="500" small :columns="carTitle" :data="carData">
+    <Table height="500" small :columns="carTitle" :data="searchCar">
       <template slot-scope="{ row }" slot="carNo">
         <strong>{{ row.carNo }}</strong>
       </template>
@@ -34,18 +36,33 @@
 </template>
 
 <script>
+import userDesc from "../components/user-desc.vue";
 export default {
   data() {
     return {
+      url: this.$store.state.url1,
       searchType: [
-        { label: "车牌名称", value: "车牌名称" },
-        { label: "用户名称", value: "用户名称" }
+        { label: "车牌号", value: "车牌号" },
+        { label: "用户名", value: "用户名" }
       ],
       carTitle: [
-        { title: "车牌号", key: "carNo" },
-        { title: "用户名称", key: "carUser" },
-        { title: "记录日期", key: "carDate", sortable: true },
-        { title: "收费金额", key: "carCost" },
+        {
+          type: "expand",
+          width: 50,
+          render: (h, params) => {
+            return h(userDesc, {
+              props: {
+                row: params.row
+              }
+            });
+          }
+        },
+        { title: "用户名", key: "name" },
+        { title: "车牌号", key: "platenum" },
+        { title: "联系电话", key: "phone", sortable: true },
+        { title: "邮箱", key: "email" },
+        { title: "注册日期", key: "registrationdatetime" },
+        { title: "是否欠费", key: "arrearage", sortable: true },
         {
           title: "操作",
           slot: "action",
@@ -53,30 +70,53 @@ export default {
           align: "center"
         }
       ],
-      carData: [
-        {
-          carNo: "粤A 12343",
-          carUser: "小明",
-          carDate: "2019-3-21",
-          carCost: "123"
-        },{
-          carNo: "粤A 12343",
-          carUser: "小明",
-          carDate: "2019-3-21",
-          carCost: "123"
-        },{
-          carNo: "粤A 12343",
-          carUser: "小明",
-          carDate: "2019-3-21",
-          carCost: "123"
-        },{
-          carNo: "粤A 12343",
-          carUser: "小明",
-          carDate: "2019-3-21",
-          carCost: "123"
-        }
-      ]
+      searchCar: [],
+      queryvalue: "",
+      carData: [],
+      type: "用户名"
     };
+  },
+  created: function() {
+    let _this = this;
+    this.axios({
+      method: "get",
+      url: _this.url + "user/getlist"
+    })
+      .then(function(res) {
+        console.log(res);
+        _this.carData = res.data;
+        // for (let i = 0; i < _this.carData.length; i++) {
+
+        // }
+        _this.searchCar = _this.carData;
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
+  },
+  methods: {
+    queryItems: function(value) {
+      this.searchCar = [];
+      if (value != "") {
+        if (this.type == "用户名") {
+          for (let i = 0; i < this.carData.length; i++) {
+            setTimeout(() => {});
+            if (this.carData[i].name.includes(value)) {
+              this.searchCar.push(this.carData[i]);
+            }
+          }
+        } else if (this.type == "车牌号") {
+          for (let i = 0; i < this.carData.length; i++) {
+            setTimeout(() => {});
+            if (this.carData[i].platenum.includes(value)) {
+              this.searchCar.push(this.carData[i]);
+            }
+          }
+        }
+      } else {
+        this.searchCar = this.carData;
+      }
+    }
   }
 };
 </script>

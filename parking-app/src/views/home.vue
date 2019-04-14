@@ -30,16 +30,15 @@
     </van-row>
 
     <van-swipe :autoplay="3000" indicator-color="white" class="home-swipe">
-      <van-swipe-item>1</van-swipe-item>
-      <van-swipe-item>2</van-swipe-item>
-      <van-swipe-item>3</van-swipe-item>
-      <van-swipe-item>4</van-swipe-item>
+      <van-swipe-item v-for="(image, index) in images" :key="index">
+        <img v-lazy="image">
+      </van-swipe-item>
     </van-swipe>
   </div>
 </template>
 
 <script>
-import { Search, Row, Col, Icon,Swipe,SwipeItem  } from "vant";
+import { Search, Row, Col, Icon, Swipe, SwipeItem,Lazyload  } from "vant";
 export default {
   components: {
     [Search.name]: Search,
@@ -47,11 +46,16 @@ export default {
     [Col.name]: Col,
     [Icon.name]: Icon,
     [Swipe.name]: Swipe,
-    [SwipeItem .name]: SwipeItem ,
+    [SwipeItem.name]: SwipeItem,
+    [Lazyload.name]: Lazyload ,
   },
   data() {
     return {
-      value: ""
+      value: "",
+      images: [
+        '../img/car1.jpg',
+        '../img/car2.jpg'
+      ]
     };
   }
 };
@@ -86,9 +90,13 @@ $fontColor: #323233;
     color: $fontColor;
   }
 }
-.home-swipe{
-    height: 3rem;
-    background: $blue;
-    margin-top: .3rem;
+.home-swipe {
+  height: 3rem;
+  background: #fff;
+  margin-top: 0.3rem;
+  img{
+    width: 100%;
+    height: 100%;
+  }
 }
 </style>
