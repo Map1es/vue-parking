@@ -1,13 +1,19 @@
 <template>
   <div class="search">
     <div id="allmap"></div>
-    <div id="r-result"></div>
+    <div id="r-result">
+      <van-panel
+        v-for="item in parking"
+        :key="item.garageName"
+        :title="item.garageName"
+        :desc="'剩余车位：'+item.realSpace+'个'"
+        :status="item.len+'m'"
+      ></van-panel>
+    </div>
   </div>
 </template>
 <script>
 import { NavBar, Panel, Button } from "vant";
-import { constants } from "crypto";
-import { mkdir } from "fs";
 export default {
   components: {
     [NavBar.name]: NavBar,
@@ -16,27 +22,47 @@ export default {
   },
   data() {
     return {
+      url: this.$store.state.url,
       mapPointX: 0,
       mapPointY: 0,
-      totalResults: []
+      totalResults: [],
+      parking: []
     };
   },
-  created() {},
+  created() {
+    let _this = this;
+    this.axios({
+      method: "get",
+      url: _this.url + "garage/info/queryList"
+    })
+      .then(res => {
+        _this.parking = res.data.rows;
+        for (let i = 0; i < _this.parking.length; i++) {
+          _this.parking[i].len = Math.floor(Math.random() * 1000);
+          if(_this.parking[i].realSpace == 0){
+            _this.parking.splice(i,1);
+            i--;
+          }
+        }
+        _this.parking.sort((a,b)=>{
+          return a.len-b.len;
+        })
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  },
   methods: {
     setMap: function() {
       let _this = this;
       var map = new BMap.Map("allmap");
-      var point = new BMap.Point(222222.542351, 11123.42002);
-      map.centerAndZoom(point, 16);
-      map.addControl(navigationControl);
-      //显示地图控件
-      var navigationControl = new BMap.NavigationControl({
+      var point = new BMap.Point(113.42206002, 22.54517751);
+      map.centerAndZoom(point, 18);
+      var top_right_navigation = new BMap.NavigationControl({
         anchor: BMAP_ANCHOR_TOP_RIGHT,
-        type: BMAP_NAVIGATION_CONTROL_ZOOM,
-        enableGeolocation: true
+        type: BMAP_NAVIGATION_CONTROL_SMALL
       });
-
-      //获取定位
+      map.addControl(top_right_navigation);
       var geolocation = new BMap.Geolocation();
       geolocation.getCurrentPosition(
         function(r) {
@@ -44,22 +70,16 @@ export default {
             var mk = new BMap.Marker(r.point);
             map.addOverlay(mk);
             map.panTo(r.point);
-            _this.mapPointX = r.point.lng;
-            _this.mapPointY = r.point.lat;
-          
           } else {
-            console.log("无法定位到您的当前位置" + this.getStatus());
+            alert("failed" + this.getStatus());
           }
         },
         { enableHighAccuracy: true }
       );
-      //检索
-      var myKeys = ["停车场"];
       var local = new BMap.LocalSearch(map, {
-        renderOptions: { map: map, panel: "r-result" },
-        pageCapacity: 8
+        renderOptions: { map: map }
       });
-      local.searchInBounds(myKeys, map.getBounds());
+      local.search("停车场");
     }
   },
   mounted() {
@@ -78,8 +98,11 @@ export default {
 #allmap {
   width: 100%;
   height: 30%;
+  position: fixed;
+  top:0;
 }
 #r-result {
   font-size: 0.12rem;
+  height: 3rem;
 }
 </style>

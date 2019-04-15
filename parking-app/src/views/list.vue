@@ -15,8 +15,12 @@
             <span>消费金额：{{item.payment}}</span>
           </div>
           <div class="list-button">
-            <van-button size="small" @click="pay(item.serialNumber)">完成支付</van-button>
-            <van-button size="small" type="danger">删除订单</van-button>
+            <van-button
+              size="small"
+              v-show="item.status==0"
+              @click="pay(item.serialNumber,item.payment)"
+            >完成支付</van-button>
+            <van-button size="small" v-show="item.status==1" type="danger">删除订单</van-button>
           </div>
         </div>
       </van-panel>
@@ -25,17 +29,18 @@
 </template>
 
 <script>
-import { NavBar, Panel, Button } from "vant";
-
+import { NavBar, Panel, Button, Toast } from "vant";
 export default {
   components: {
     [NavBar.name]: NavBar,
     [Panel.name]: Panel,
-    [Button.name]: Button
+    [Button.name]: Button,
+    [Toast.name]: Toast
   },
   data() {
     return {
       url: this.$store.state.url,
+      url1: this.$store.state.url1,
       userid: this.$store.state.userid,
       list: {}
     };
@@ -51,15 +56,20 @@ export default {
     })
       .then(res => {
         _this.list = res.data.rows;
-        console.log(_this.list);
         for (let i = 0; i < _this.list.length; i++) {
-          if (_this.list[i].outTime) {
-            _this.list[i].outTime = _this.gettime(_this.list[i].outTime);
-          }
           if (_this.list[i].inTime) {
             _this.list[i].inTime = _this.gettime(_this.list[i].inTime);
           }
+          if (_this.list[i].outTime) {
+            _this.list[i].outTime = _this.gettime(_this.list[i].outTime);
+          } else {
+            _this.list.splice(i, 1);
+            i--;
+          }
         }
+        _this.list.sort((a, b) => {
+          return a.status - b.status;
+        });
       })
       .catch(err => {
         console.log(err);
@@ -69,20 +79,47 @@ export default {
     onClickLeft() {
       this.$router.go(-1);
     },
-    pay(id) {
+    pay(id, money) {
       let _this = this;
       this.axios({
-        url: _this.url + "bill/info/checkout" ,
-        method: "put",
-        data:{
-          serialNumber: id,
-          paymentId: 0
+        url: _this.url1 + "user/deduct",
+        method: "get",
+        params: {
+          userid: _this.userid,
+          money: money
         }
-      }).then(res=>{
-        console.log(res);
-      }).catch(err=>{
-        console.log(err);
       })
+        .then(res => {
+          if (res.data == 1) {
+            _this
+              .axios({
+                url: _this.url + "bill/info/complete",
+                method: "put",
+                data: {
+                  serialNumber: id,
+                  paymentId: 0
+                }
+              })
+              .then(res => {
+                Toast({
+                  duration: 2000,
+                  message: "支付成功"
+                });
+                _this.$router.go(0);
+              })
+              .catch(err => {
+                console.log(err);
+              });
+          } else {
+            Toast({
+              duration: 2000,
+              message: "余额不足"
+            });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
     gettime(t) {
       var _time = new Date(t);

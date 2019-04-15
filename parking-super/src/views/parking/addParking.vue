@@ -12,9 +12,9 @@
         <Input v-model="parking.map.x" placeholder="输入经度" class="form-map"></Input>
         <Input v-model="parking.map.y" placeholder="输入纬度" class="form-map"></Input>
       </FormItem>
-      <!-- <FormItem label="管理员：" prop="admin">
-        <Input v-model="parking.admin" placeholder="请输入管理员账号"></Input>
-      </FormItem> -->
+      <FormItem label="收费标准：" prop="fee">
+        <InputNumber v-model="parking.fee"></InputNumber> 元/小时
+      </FormItem>
       <FormItem label="详情：" prop="details">
         <Input v-model="parking.details" type="textarea" :autosize="{minRows: 2,maxRows: 4}"></Input>
       </FormItem>
@@ -38,7 +38,8 @@ export default {
           x: "",
           y: ""
         },
-        details: ""
+        details: "",
+        fee:0
       }
     };
   },

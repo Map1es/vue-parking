@@ -14,6 +14,10 @@
         <div class="item-content">{{parking.realnum}}</div>
       </div>
       <div class="form-item">
+        <div class="item-name">收费标准：</div>
+        <div class="item-content">{{parking.fee}} 元/小时</div>
+      </div>
+      <div class="form-item">
         <div class="item-name">停车场经纬度：</div>
         <div class="item-content">{{parking.map}}</div>
       </div>
@@ -36,6 +40,7 @@ export default {
         realnum: 0,
         map: "",
         details: "",
+        fee: 0
       }
     };
   },
@@ -54,7 +59,17 @@ export default {
         _this.parking.realnum = res.data.realSpace;
       })
       .catch(err => {
-        console.log(res);
+        console.log(err);
+      });
+    this.axios({
+      method: "get",
+      url: _this.url + "fee/scale/garageId/137"
+    })
+      .then(res => {
+        _this.parking.fee = res.data.price;
+      })
+      .catch(err => {
+        console.log(err);
       });
   },
   methods: {
@@ -70,18 +85,18 @@ export default {
   margin: 20px auto;
   width: 60%;
 }
-.form-item{
+.form-item {
   font-size: 22px;
   font-weight: 600;
   margin-bottom: 16px;
   display: flex;
 }
-.item-name{
+.item-name {
   text-align: end;
   display: inline-block;
   width: 160px;
 }
-.item-content{
+.item-content {
   margin-left: 10px;
   display: inline-block;
   width: 65%;

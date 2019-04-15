@@ -42,7 +42,8 @@ export default {
         },
         details: "",
         fee: 0
-      }
+      },
+      feeId: null
     };
   },
   created() {
@@ -63,16 +64,17 @@ export default {
       .catch(err => {
         console.log(res);
       });
-    // this.axios({
-    //   method: "get",
-    //   url: _this.url + "fee/scale/137"
-    // })
-    //   .then(res => {
-    //     console.log(res);
-    //   })
-    //   .catch(err => {
-    //     console.log(res);
-    //   });
+    this.axios({
+      method: "get",
+      url: _this.url + "fee/scale/garageId/137"
+    })
+      .then(res => {
+        _this.parking.fee = res.data.price;
+        _this.feeId = res.data.feeId;
+      })
+      .catch(err => {
+        console.log(err);
+      });
   },
   methods: {
     goback() {
@@ -94,7 +96,6 @@ export default {
         }
       })
         .then(res => {
-          console.log(res);
           if (res.status == 204) {
             _this.$Message.success("修改成功");
             _this.$router.push("parking");
@@ -109,6 +110,20 @@ export default {
           console.log(res);
         });
 
+        this.axios({
+      method: "put",
+      url: _this.url + "fee/scale",
+      data:{
+        feeId: _this.feeId,
+        price: _this.parking.fee
+      }
+    })
+      .then(res => {
+
+      })
+      .catch(err => {
+        console.log(err);
+      });
     }
   }
 };

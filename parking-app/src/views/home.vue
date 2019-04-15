@@ -10,16 +10,20 @@
         </div>
       </van-col>
       <van-col span="6">
-        <div class="content-item">
-          <van-icon name="gold-coin" color="#FFC125"/>
-          <span>缴费查询</span>
-        </div>
+        <router-link to="list">
+          <div class="content-item">
+            <van-icon name="gold-coin" color="#FFC125"/>
+            <span>缴费查询</span>
+          </div>
+        </router-link>
       </van-col>
       <van-col span="6">
-        <div class="content-item">
-          <van-icon name="map-marked"/>
-          <span>停车场查询</span>
-        </div>
+        <router-link to="search">
+          <div class="content-item">
+            <van-icon name="map-marked" color="black"/>
+            <span>停车场查询</span>
+          </div>
+        </router-link>
       </van-col>
       <van-col span="6">
         <div class="content-item">
@@ -38,7 +42,7 @@
 </template>
 
 <script>
-import { Search, Row, Col, Icon, Swipe, SwipeItem,Lazyload  } from "vant";
+import { Search, Row, Col, Icon, Swipe, SwipeItem, Lazyload } from "vant";
 export default {
   components: {
     [Search.name]: Search,
@@ -47,15 +51,12 @@ export default {
     [Icon.name]: Icon,
     [Swipe.name]: Swipe,
     [SwipeItem.name]: SwipeItem,
-    [Lazyload.name]: Lazyload ,
+    [Lazyload.name]: Lazyload
   },
   data() {
     return {
       value: "",
-      images: [
-        '../img/car1.jpg',
-        '../img/car2.jpg'
-      ]
+      images: ["../img/car1.jpg", "../img/car2.jpg"]
     };
   }
 };
@@ -94,7 +95,7 @@ $fontColor: #323233;
   height: 3rem;
   background: #fff;
   margin-top: 0.3rem;
-  img{
+  img {
     width: 100%;
     height: 100%;
   }
