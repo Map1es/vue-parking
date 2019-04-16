@@ -12,9 +12,6 @@
         <Input v-model="parking.map.x" placeholder="输入经度" class="form-map"></Input>
         <Input v-model="parking.map.y" placeholder="输入纬度" class="form-map"></Input>
       </FormItem>
-      <FormItem label="收费标准：" prop="fee">
-        <InputNumber v-model="parking.fee"></InputNumber> 元/小时
-      </FormItem>
       <FormItem label="详情：" prop="details">
         <Input v-model="parking.details" type="textarea" :autosize="{minRows: 2,maxRows: 4}"></Input>
       </FormItem>
@@ -38,8 +35,7 @@ export default {
           x: "",
           y: ""
         },
-        details: "",
-        fee:0
+        details: ""
       }
     };
   },
@@ -62,17 +58,15 @@ export default {
         }
       })
         .then(res => {
-          if(res.status==200){
-            _this.$Message.success("添加成功");
-            _this.$router.replace("parking");
-          }else if(res.status==400){
-            _this.$Message.error("请填写");
-          }else{
-            _this.$Message.error("服务器出错，请稍后再试");
-          }
+          _this.$Message.success("添加成功");
+          _this.$router.replace("parking");
         })
         .catch(err => {
-          console.log(err);
+          if (err.toString().slice(-3) == 400) {
+            _this.$Message.error("请填写完整");
+          } else {
+            _this.$Message.error("服务器出错，请稍后再试");
+          }
         });
     }
   }

@@ -61,7 +61,6 @@ export default {
         { title: "车牌号", key: "platenum" },
         { title: "联系电话", key: "phone", sortable: true },
         { title: "邮箱", key: "email" },
-        { title: "注册日期", key: "registrationdatetime" },
         { title: "是否欠费", key: "arrearage", sortable: true },
         {
           title: "操作",
@@ -85,9 +84,6 @@ export default {
       .then(function(res) {
         console.log(res);
         _this.carData = res.data;
-        // for (let i = 0; i < _this.carData.length; i++) {
-
-        // }
         _this.searchCar = _this.carData;
       })
       .catch(function(err) {
