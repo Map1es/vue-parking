@@ -61,7 +61,6 @@ export default {
         { title: "车牌号", key: "platenum" },
         { title: "联系电话", key: "phone", sortable: true },
         { title: "邮箱", key: "email" },
-        { title: "是否欠费", key: "arrearage", sortable: true },
         {
           title: "操作",
           slot: "action",
