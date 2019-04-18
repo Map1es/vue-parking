@@ -9,8 +9,7 @@
         <InputNumber v-model="parking.number"></InputNumber>
       </FormItem>
       <FormItem label="停车场位置：" prop="map">
-        <Input v-model="parking.map.x" placeholder="输入经度" class="form-map"></Input>
-        <Input v-model="parking.map.y" placeholder="输入纬度" class="form-map"></Input>
+        <Input v-model="parking.map" placeholder="输入地址" class="form-map"></Input>
       </FormItem>
       <!-- <FormItem label="管理员：" prop="admin">
         <Input v-model="parking.admin" placeholder="请输入管理员账号"></Input>
@@ -54,9 +53,7 @@ export default {
         _this.parking.number = res.data.sumSapce;
         _this.parking.realnum = res.data.realSpace;
         _this.parking.details = res.data.details;
-        let mapIndex = res.data.latitudeAndLongitude.indexOf("，");
-        _this.parking.map.x = res.data.latitudeAndLongitude.slice(0, mapIndex);
-        _this.parking.map.y = res.data.latitudeAndLongitude.slice(mapIndex + 1);
+        _this.parking.map = res.data.latitudeAndLongitude;
       })
       .catch(err => {
         console.log(err);
@@ -74,8 +71,7 @@ export default {
         data: {
           garageId: _this.parking.garageId,
           garageName: _this.parking.name,
-          latitudeAndLongitude:
-            _this.parking.map.x + "，" + _this.parking.map.y,
+          latitudeAndLongitude: _this.parking.map,
           details: _this.parking.details,
           attribute: "地下计费",
           sumSapce: _this.parking.number

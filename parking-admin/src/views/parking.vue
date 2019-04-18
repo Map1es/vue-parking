@@ -18,7 +18,7 @@
         <div class="item-content">{{parking.fee}} 元/小时</div>
       </div>
       <div class="form-item">
-        <div class="item-name">停车场经纬度：</div>
+        <div class="item-name">停车场位置：</div>
         <div class="item-content">{{parking.map}}</div>
       </div>
       <div class="form-item">

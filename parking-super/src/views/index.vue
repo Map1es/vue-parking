@@ -79,11 +79,20 @@ export default {
             _this.opinionData[0].value = data[i].num;
           }
         }
-
         _this.drawPie("pie");
-        _this.drawBar("bar");
       })
       .catch(err => {
+        console.log(err);
+      });
+      this.axios({
+      method: "get",
+      url: _this.url + "bill/count/garage/lastweek/137",
+    })
+      .then(function(res) {
+        _this.carFlow = res.data;
+        _this.drawBar("bar");
+      })
+      .catch(function(err) {
         console.log(err);
       });
   },

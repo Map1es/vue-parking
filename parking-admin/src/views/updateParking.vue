@@ -9,11 +9,10 @@
         <InputNumber v-model="parking.number"></InputNumber>
       </FormItem>
       <FormItem label="停车场位置：" prop="map">
-        <Input v-model="parking.map.x" placeholder="输入经度" class="form-map"></Input>
-        <Input v-model="parking.map.y" placeholder="输入纬度" class="form-map"></Input>
+        <Input v-model="parking.map" placeholder="输入地址" class="form-map"></Input>
       </FormItem>
       <FormItem label="收费标准：" prop="fee">
-        <InputNumber v-model="parking.fee"></InputNumber> 元/小时
+        <InputNumber v-model="parking.fee"></InputNumber>元/小时
       </FormItem>
       <!-- <FormItem label="管理员：" prop="admin">
         <Input v-model="parking.admin" placeholder="请输入管理员账号"></Input>
@@ -36,10 +35,7 @@ export default {
       parking: {
         name: "",
         number: 0,
-        map: {
-          x: "",
-          y: ""
-        },
+        map: "",
         details: "",
         fee: 0
       },
@@ -57,9 +53,7 @@ export default {
         _this.parking.details = res.data.details;
         _this.parking.attribute = res.data.attribute;
         _this.parking.number = res.data.sumSapce;
-        let mapIndex = res.data.latitudeAndLongitude.indexOf("，");
-        _this.parking.map.x = res.data.latitudeAndLongitude.slice(0, mapIndex);
-        _this.parking.map.y = res.data.latitudeAndLongitude.slice(mapIndex + 1);
+        _this.parking.map = res.data.latitudeAndLongitude;
       })
       .catch(err => {
         console.log(res);
@@ -88,8 +82,7 @@ export default {
         data: {
           garageId: 137,
           garageName: _this.parking.name,
-          latitudeAndLongitude:
-            _this.parking.map.x + "，" + _this.parking.map.y,
+          latitudeAndLongitude: _this.parking.map,
           details: _this.parking.details,
           attribute: "地下计费",
           sumSapce: _this.parking.number
@@ -110,20 +103,18 @@ export default {
           console.log(res);
         });
 
-        this.axios({
-      method: "put",
-      url: _this.url + "fee/scale",
-      data:{
-        feeId: _this.feeId,
-        price: _this.parking.fee
-      }
-    })
-      .then(res => {
-
+      this.axios({
+        method: "put",
+        url: _this.url + "fee/scale",
+        data: {
+          feeId: _this.feeId,
+          price: _this.parking.fee
+        }
       })
-      .catch(err => {
-        console.log(err);
-      });
+        .then(res => {})
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
 };

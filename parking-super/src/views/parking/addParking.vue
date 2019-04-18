@@ -9,8 +9,7 @@
         <InputNumber v-model="parking.number"></InputNumber>
       </FormItem>
       <FormItem label="停车场位置：" prop="map">
-        <Input v-model="parking.map.x" placeholder="输入经度" class="form-map"></Input>
-        <Input v-model="parking.map.y" placeholder="输入纬度" class="form-map"></Input>
+        <Input v-model="parking.map" placeholder="输入地址" class="form-map"></Input>
       </FormItem>
       <FormItem label="详情：" prop="details">
         <Input v-model="parking.details" type="textarea" :autosize="{minRows: 2,maxRows: 4}"></Input>
@@ -31,10 +30,7 @@ export default {
       parking: {
         name: "",
         number: 0,
-        map: {
-          x: "",
-          y: ""
-        },
+        map:"",
         details: ""
       }
     };
@@ -50,8 +46,7 @@ export default {
         url: _this.url + "garage/info",
         data: {
           garageName: _this.parking.name,
-          latitudeAndLongitude:
-            _this.parking.map.x + "，" + _this.parking.map.y,
+          latitudeAndLongitude: _this.parking.map,
           sumSapce: _this.parking.number,
           attribute: "地下计费",
           details: _this.parking.details

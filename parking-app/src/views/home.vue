@@ -187,7 +187,7 @@ export default {
       if (hour - beginHour.getHours() > 0) {
         res += (hour - beginHour.getHours()) + "小时";
       }
-      if (minute != 0) {
+      if (minute > 0) {
         res += minute + "分钟";
       }
       return res;

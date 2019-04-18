@@ -4,7 +4,7 @@
       <FormItem label="停车场名称：">{{parking.name}}</FormItem>
       <FormItem label="车位总数量：">{{parking.number}}</FormItem>
       <FormItem label="车位空闲数量：">{{parking.realnum}}</FormItem>
-      <FormItem label="停车场经纬度：">{{parking.map}}</FormItem>
+      <FormItem label="停车场地址：">{{parking.map}}</FormItem>
       <FormItem label="详情：">{{parking.details}}</FormItem>
       <FormItem>
         <Button
