@@ -85,7 +85,7 @@ export default {
     })
       .then(function(res) {
         _this.parking = res.data;
-        _this.opinionData[0].value = res.data.realSpace-res.data.sumSapce;
+        _this.opinionData[0].value = res.data.sumSapce-res.data.realSpace;
         _this.opinionData[1].value = res.data.realSpace;
         _this.drawPie("pie");
       })

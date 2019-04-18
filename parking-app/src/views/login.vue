@@ -68,7 +68,6 @@ export default {
               window.localStorage.setItem("userid", res.data);
               _this.$store.dispatch("reflashSet");
               console.log(res.data);
-              console.log(_this.$store.state.userid);
               _this.$router.replace("home");
             }
           })

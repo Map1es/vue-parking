@@ -39,7 +39,7 @@
       </van-swipe-item>
     </van-swipe>
 
-    <div class="count">
+    <div v-show="false" class="count">
       <div class="count-desc">
         <div class="desc-item">
           <div>入场时间</div>
@@ -60,12 +60,12 @@
       </div>
     </div>
 
-    <router-link to="list">
-      <van-panel class="cost" title="2019/4/17" status="未支付">
+    <router-link to="list" v-if="costList">
+      <van-panel class="cost" :title="costDate" :status="status">
         <div class="cost-content">
           <div class="finish-cost">
-            <div>停车时长：1小时</div>
-            <div>应支付：14元</div>
+            <div>停车时长：{{longTime}}</div>
+            <div>已消费：{{cost}}元</div>
           </div>
           <div class="cost-left">
             <van-icon name="arrow"/>
@@ -73,6 +73,10 @@
         </div>
       </van-panel>
     </router-link>
+
+    <dir v-if="!costList" class="no-cost">
+      <van-icon name="completed" color="green"/>已支付所有订单
+    </dir>
   </div>
 </template>
 
@@ -103,8 +107,106 @@ export default {
   data() {
     return {
       value: "",
-      images: ["../img/car1.jpg", "../img/car2.jpg"]
+      userid: this.$store.state.userid,
+      url: this.$store.state.url,
+      url1: this.$store.state.url1,
+      images: ["../img/car1.jpg", "../img/car2.jpg"],
+      costList: null,
+      longTime: "",
+      cost: 0,
+      status: "未离场",
+      costDate: ""
     };
+  },
+  beforeCreate() {
+    this.$store.dispatch("reflashSet");
+  },
+  created() {
+    let _this = this;
+    this.axios({
+      url: _this.url + "bill/info/queryList/user/" + _this.userid,
+      method: "get"
+    })
+      .then(res => {
+        let list = res.data.rows;
+        let chuo = Date.parse(new Date());
+        for (let i = 0; i < list.length; i++) {
+          if (!list[i].status) {
+            if (list[i].inTime) {
+              let longTime = _this.getdiff(list[i].inTime, chuo);
+              let cost = _this.getCost(list[i].inTime, chuo, 14);
+              _this.costDate = _this.gettime(list[i].inTime);
+              _this.longTime = longTime;
+              _this.cost = cost;
+            }
+            if (list[i].outTime) {
+              _this.status = "未支付";
+              _this.cost = list[i].payment;
+              _this.longTime = _this.getdiff(list[i].inTime, list[i].outTime);
+            }
+            _this.costList = list[i];
+            break;
+          }
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  },
+  mounted() {},
+  methods: {
+    gettime(t) {
+      var _time = new Date(t);
+      var year = _time.getFullYear();
+      var month = _time.getMonth() + 1;
+      var date = _time.getDate();
+      var hour = _time.getHours();
+      var minute = _time.getMinutes();
+      var second = _time.getSeconds();
+      return (
+        year +
+        "-" +
+        month +
+        "-" +
+        date +
+        " " +
+        hour +
+        ":" +
+        minute +
+        ":" +
+        second
+      ); //这里自己按自己需要的格式拼接
+    },
+    getdiff(begin, end) {
+      let timediff = end - begin;
+      let _time = new Date(timediff);
+      let beginHour = new Date(begin);
+      let hour = _time.getHours();
+      let minute = _time.getMinutes();
+      let res = "";
+      if (hour - beginHour.getHours() > 0) {
+        res += (hour - beginHour.getHours()) + "小时";
+      }
+      if (minute != 0) {
+        res += minute + "分钟";
+      }
+      return res;
+    },
+    getCost(begin, end, cost) {
+      let timediff = end - begin;
+      let _time = new Date(timediff);
+      let beginHour = new Date(begin);
+      let hour = _time.getHours();
+      let minute = _time.getMinutes();
+      let res = 0;
+      if (hour - beginHour.getHours() > 0) {
+        res = cost * (hour - beginHour.getHours());
+      }
+      if (minute != 0) {
+        res += cost;
+      }
+      return res;
+    }
   }
 };
 </script>
@@ -207,5 +309,15 @@ $fontColor: #323233;
   div {
     margin: 0.1rem 0.2rem;
   }
+}
+.no-cost {
+  background: #fff;
+  width: 100%;
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  font-size: 0.3rem;
 }
 </style>
