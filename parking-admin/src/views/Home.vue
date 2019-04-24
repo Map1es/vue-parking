@@ -113,7 +113,6 @@ export default {
   margin: 30px 40px 50px;
   background: #f5f7f9;
   padding: 20px 80px;
-  height: 100%;
   position: relative;
   border-radius: 15px;
 }

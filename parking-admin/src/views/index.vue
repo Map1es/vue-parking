@@ -308,6 +308,7 @@ export default {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  flex:2;
 }
 .pie-title {
   text-align: center;
